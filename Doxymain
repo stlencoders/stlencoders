@@ -1,0 +1,361 @@
+/**
+ * @file
+ *
+ * Documentation main page.
+ */
+
+/**
+ * @mainpage stlencoders - Generic Base 16/32/64 Encoding for C++
+ *
+ * @section intro Introduction
+ *
+ * @em stlencoders is a C++ implementation of the Base16, Base32 and
+ * Base64 encoding schemes as defined in RFC 4648.
+ *
+ * The @em stlencoders library provides several <em>codec</em>
+ * classes, which are class templates designed to support the
+ * transformation of arbitrary octet sequences into sequences of
+ * characters of any character type (encoding), and vice versa
+ * (decoding), for a particular encoding scheme.  Codec classes are
+ * parameterized by the character type and a <em>character encoding
+ * traits</em> class, which defines the encoding alphabet, i.e. the
+ * mapping of integral values to individual characters of the
+ * character type.
+ *
+ * @section traits Character Encoding Traits
+ *
+ * Classes representing character encoding traits define an encoding
+ * alphabet for a particular encoding scheme and a given character
+ * type.  These classes define the properties of the character type
+ * used in encoding and decoding algorithms, e.g. the types used for
+ * representing characters and integral values, the necessary
+ * operations for mapping integral values to individual characters, as
+ * well as the character used for padding of encoded data.  Different
+ * traits classes may exist for the same encoding scheme and character
+ * type, representing alternative encoding alphabets, such as the ones
+ * used in the @em base64url and @em base32hex encodings defined in
+ * RFC 4648.
+ *
+ * @subsection reqtraits Character Encoding Traits Requirements
+ *
+ * In the following table, @c traits denotes a class template defining
+ * types and functions for a character type @c charT; @c c and @c d
+ * denote values of type @c charT; @c e and @c f denote values of type
+ * @c traits::int_type. Operations on character encoding traits
+ * shall not throw exceptions.
+ *
+ * <table>
+ *   <tr>
+ *     <th>Expression</th>
+ *     <th>Return Type</th>
+ *     <th>Description</th>
+ *     <th>Complexity</th>
+ *   </tr>
+ *   <tr>
+ *     <td class="memname">traits::char_type</td>
+ *     <td>@c charT</td>
+ *     <td>The encoding character type.</td>
+ *     <td>compile-time</td>
+ *   </tr>
+ *   <tr>
+ *     <td class="memname">traits::int_type</td>
+ *     <td>@em implementation-defined</td>
+ *     <td>
+ *       An integral type large enough to hold all values of an octet
+ *       [0..255].
+ *     </td>
+ *     <td>compile-time</td>
+ *   </tr>
+ *   <tr>
+ *     <td class="memname">traits::eq(c, d)</td>
+ *     <td>@c bool</td>
+ *     <td>
+ *       Returns whether the character @c c is to be treated equal
+ *       to the character @c d.
+ *     </td>
+ *     <td>constant</td>
+ *   </tr>
+ *   <tr>
+ *     <td class="memname">traits::eq_int_type(e, f)</td>
+ *     <td>@c bool</td>
+ *     <td>
+ *       For all characters @c c and @c d in the encoding alphabet,
+ *       <c>traits::eq_int_type(traits::to_int_type(c),
+ *       traits::to_int_type(d))</c> is equal to <c>traits::eq(c,
+ *       d)</c>; otherwise, returns @c true if @c e and @c f are both
+ *       copies of @c traits::inv(); otherwise, returns @c false if
+ *       one of @c e and @c f is a copy of @c traits::inv() and the
+ *       other is not; otherwise the return value is unspecified.
+ *     </td>
+ *     <td>constant</td>
+ *   </tr>
+ *   <tr>
+ *     <td class="memname">traits::to_char_type(e)</td>
+ *     <td>@c traits::char_type</td>
+ *     <td>
+ *       If the integral value @c e has a character representation in the
+ *       encoding, returns that character; otherwise, the return value is
+ *       unspecified.  If the encoding supports both upper- and lowercase
+ *       alphabets, it is implementation-defined whether an upper- or
+ *       lowercase character will be returned.
+ *     </td>
+ *     <td>constant</td>
+ *   </tr>
+ *   <tr>
+ *     <td class="memname">traits::to_int_type(c)</td>
+ *     <td>@c traits::int_type</td>
+ *     <td>
+ *       For all characters @c c in the encoding alphabet, returns the
+ *       integral value represented by @c c; otherwise, returns
+ *       traits::inv().
+ *     </td>
+ *     <td>constant</td>
+ *   </tr>
+ *   <tr>
+ *     <td class="memname">traits::inv()</td>
+ *     <td>@c traits::int_type</td>
+ *     <td>
+ *       Returns a value @c e such that <c>traits::eq_int_type(e,
+ *       traits::to_int_type(c))</c> is @c false for all characters @c c
+ *       in the encoding alphabet.
+ *     </td>
+ *     <td>constant</td>
+ *   </tr>
+ * </table>
+ *
+ * @subsection opttraits Optional Character Encoding Traits Members
+ *
+ * A character encoding traits class may define the following members
+ * depending on the characteristics of the particular encoding,
+ * i.e. whether the encoding uses padding or supports both upper- and
+ * lowercase alphabets.
+ *
+ * <table>
+ *   <tr>
+ *     <th>Expression</th>
+ *     <th>Return Type</th>
+ *     <th>Description</th>
+ *     <th>Complexity</th>
+ *   </tr>
+ *   <tr>
+ *     <td class="memname">traits::to_char_type_upper(e)</td>
+ *     <td>@c traits::char_type</td>
+ *     <td>
+ *       If the encoding supports both upper- and lowercase alphabets and
+ *       @c e has a character representation in the encoding, returns the
+ *       uppercase character representing @c e; otherwise the return
+ *       value is unspecified.
+ *     </td>
+ *     <td>constant</td>
+ *   </tr>
+ *   <tr>
+ *     <td class="memname">traits::to_char_type_lower(e)</td>
+ *     <td>@c traits::char_type</td>
+ *     <td>
+ *       If the encoding supports both upper- and lowercase alphabets and
+ *       @c e has a character representation in the encoding, returns the
+ *       lowercase character representing @c e; otherwise the return
+ *       value is unspecified.
+ *     </td>
+ *     <td>constant</td>
+ *   </tr>
+ *   <tr>
+ *     <td class="memname">traits::pad()</td>
+ *     <td>@c traits::char_type</td>
+ *     <td>
+ *       If padding is used by the encoding, returns the character used
+ *       to perform padding at the end of a character range.
+ *     </td>
+ *     <td>constant</td>
+ *   </tr>
+ * </table>
+ *
+ * @section codec Codecs
+ *
+ * A codec is a class template that implements a particular encoding
+ * scheme for a given character type and encoding alphabet, and is
+ * parameterized by the character type and a character encoding traits
+ * class.  Codec classes provide operations for @em encoding octet
+ * sequences to character sequences and @em decoding character
+ * sequences to octet sequences.  These operations are implemented as
+ * static @c encode and @c decode template member functions of the
+ * codec class, and are parameterized by iterator types.
+ *
+ * @subsection reqcodec Codec Requirements
+ *
+ * In the following table, @c codec denotes a codec class defining
+ * types and functions for a particular encoding with character type
+ * @c charT and character encoding traits @c traits; @c i and @c j
+ * denote iterators satisfying input iterator requirements and refer
+ * to elements implicitly convertible to @c codec::int_type; @c k and
+ * @c l denote iterators satisfying input iterator requirements and
+ * refer to elements implicitly convertible to @c codec::char_type;
+ * <c>[i, j)</c> and <c>[k, l)</c> denote valid ranges; @c r denotes
+ * an iterator satisfying output iterator requirements; @c s denotes a
+ * function object that, when applied to a value of type @c
+ * codec::char_type, returns a value testable as @c true; @c n denotes
+ * a value of integral type.
+ *
+ * <table>
+ *   <tr>
+ *     <th>Expression</th>
+ *     <th>Return Type</th>
+ *     <th>Description</th>
+ *     <th>Complexity</th>
+ *   </tr>
+ *   <tr>
+ *     <td class="memname">codec::char_type</td>
+ *     <td>@c charT</td>
+ *     <td>The encoding character type.</td>
+ *     <td>compile-time</td>
+ *   </tr>
+ *   <tr>
+ *     <td class="memname">codec::traits_type</td>
+ *     <td>@c traits</td>
+ *     <td>The character encoding traits type.</td>
+ *     <td>compile-time</td>
+ *   </tr>
+ *   <tr>
+ *     <td class="memname">codec::int_type</td>
+ *     <td>@em implementation-defined</td>
+ *     <td>
+ *       An integral type large enough to hold all values of an octet
+ *       [0..255].
+ *     </td>
+ *     <td>compile-time</td>
+ *   </tr>
+ *   <tr>
+ *     <td class="memname">codec::encode(i, j, r)</td>
+ *     <td>type of @c r</td>
+ *     <td>
+ *       Encodes the octet range <c>[i, j)</c> into the output range
+ *       beginning at @c r, performing padding if supported by the
+ *       encoding.  Returns an iterator referring to one past the last
+ *       value assigned to the output range.
+ *     </td>
+ *     <td>linear</td>
+ *   </tr>
+ *   <tr>
+ *     <td class="memname">codec::decode(k, l, r)</td>
+ *     <td>type of @c r</td>
+ *     <td>
+ *       Decodes the character range <c>[k, l)</c> into the output
+ *       range beginning at @c r.  For any character @c c not in the
+ *       encoding alphabet, if padding is used by the encoding, stops
+ *       at the first occurence of @c traits::pad(); otherwise, throws
+ *       stlencoders::invalid_character.  Returns an iterator
+ *       referring to one past the last value assigned to the output
+ *       range, or throws stlencoders::invalid_length if the input
+ *       range does not constitute a valid encoding sequence (e.g. an
+ *       odd number of Base16 characters).
+ *     </td>
+ *     <td>linear</td>
+ *   </tr>
+ *   <tr>
+ *     <td class="memname">codec::decode(k, l, r, s)</td>
+ *     <td>type of @c r</td>
+ *     <td>
+ *       Decodes the character range <c>[k, l)</c> into the output
+ *       range beginning at @c r.  For any character @c c not in the
+ *       encoding alphabet, if @c s(c) evaluates to true, that
+ *       character is ignored; otherwise, if padding is used by the
+ *       encoding, stops at the first occurence of @c traits::pad();
+ *       otherwise, throws stlencoders::invalid_character.  Returns an
+ *       iterator referring to one past the last value assigned to the
+ *       output range, or throws stlencoders::invalid_length if the
+ *       input range does not constitute a valid encoding sequence
+ *       (e.g. an odd number of Base16 characters).
+ *     </td>
+ *     <td>linear</td>
+ *   </tr>
+ *   <tr>
+ *     <td class="memname">codec::max_encode_size(n)</td>
+ *     <td>type of @c n</td>
+ *     <td>
+ *       Returns the largest possible result length when encoding an
+ *       octet range of length @c n.
+ *     </td>
+ *     <td>constant</td>
+ *   </tr>
+ *   <tr>
+ *     <td class="memname">codec::max_decode_size(n)</td>
+ *     <td>type of @c n</td>
+ *     <td>
+ *       Returns the largest possible result length when decoding a
+ *       character range of length @c n.
+ *     </td>
+ *     <td>constant</td>
+ *   </tr>
+ * </table>
+ *
+ * Note that, although iterators referencing almost any integral type
+ * can be passed where an octet range is expected, these iterators
+ * will always be treated as if referring to octet types.  Given the
+ * following example:
+ *
+ * @code
+ * std::vector<unsigned long> in;
+ * std::vector<unsigned long> out;
+ * std::string s;
+ *
+ * stlencoders::base64<char>::encode(in.begin(), in.end(), std::back_inserter(s));
+ * stlencoders::base64<char>::decode(s.begin(), s.end(), std::back_inserter(out));
+ * @endcode
+ *
+ * <c>in</c>'s values will be truncated to eight bits when encoding,
+ * and @c out will only hold values in the range [0..255] after
+ * decoding.
+ *
+ * @subsection optcodec Optional Codec Members
+ *
+ * A codec class may define the following members depending on the
+ * characteristics of the particular encoding, i.e. whether the
+ * encoding supports both upper- and lowercase alphabets.
+ *
+ * <table>
+ *   <tr>
+ *     <th>Expression</th>
+ *     <th>Return Type</th>
+ *     <th>Description</th>
+ *     <th>Complexity</th>
+ *   </tr>
+ *   <tr>
+ *     <td class="memname">codec::encode_upper(i, j, r)</td>
+ *     <td>type of @c r</td>
+ *     <td>
+ *       Encodes the octet range <c>[i, j)</c> into the output range
+ *       beginning at @c r, using the uppercase encoding alphabet as
+ *       defined by <c>traits::to_char_type_upper</c> and performing
+ *       padding if supported by the encoding.  Returns an iterator
+ *       referring to one past the last value assigned to the output
+ *       range.
+ *     </td>
+ *     <td>linear</td>
+ *   </tr>
+ *   <tr>
+ *     <td class="memname">codec::encode_lower(i, j, r)</td>
+ *     <td>type of @c r</td>
+ *     <td>
+ *       Encodes the octet range <c>[i, j)</c> into the output range
+ *       beginning at @c r, using the lowercase encoding alphabet as
+ *       defined by <c>traits::to_char_type_lower</c> and performing
+ *       padding if supported by the encoding.  Returns an iterator
+ *       referring to one past the last value assigned to the output
+ *       range.
+ *     </td>
+ *     <td>linear</td>
+ *   </tr>
+ * </table>
+ * */
+
+/**
+ * @namespace stlencoders
+ *
+ * C++ namespace used for the @em stlencoders public API.
+ */
+
+/**
+ * @namespace stlencoders::detail
+ *
+ * C++ namespace used for @em stlencoders implementation details.
+ */
