@@ -1,0 +1,21 @@
+STLENCODERS - Generic Base 16/32/64 encoding algorithms for C++
+---------------------------------------------------------------
+
+STLENCODERS is a C++ implementation of the standard Base 64 encoding
+and decoding algorithms as defined in RFC 4648, working with STL
+iterators.
+
+STLENCODERS was mainly inspired by Nick Galbreath's excellent
+STRINGENCODERS library.  But where stringencoders strives for maximum
+performance while retaining a high grade of portability, stlencoders'
+main goals are flexibility and ease of use in a modern C++
+environment, even if sacrificing performance (a little).  However, as
+the STRINGENCODERS project page puts it,
+
+    Unless your application is doing almost nothing except encoding
+    and decoding, the odds are that these functions will not improve
+    the total performance of your application. Even with slow versions
+    of base64 it's already so fast it's probably not measurable in
+    your application.
+
+As always, your mileage may vary.
