@@ -56,40 +56,35 @@ void pipe_sample()
 
 void mime_sample()
 {
-    using namespace stlencoders;
-
     std::istreambuf_iterator<char> in(std::cin);
     std::istreambuf_iterator<char> end;
     std::ostreambuf_iterator<char> out(std::cout);
 
-    base64<char>::encode(in, end, line_wrapper(out, 76, "\r\n"));
+    stlencoders::base64<char>::encode(in, end, stlencoders::line_wrapper(out, 76, "\r\n"));
 }
 
 void skip_sample()
 {
-    using namespace stlencoders;
-
     std::istreambuf_iterator<char> in(std::cin);
     std::istreambuf_iterator<char> end;
     std::ostreambuf_iterator<char> out(std::cout);
 
 #ifdef STDCXX_TR1_HEADERS
     using namespace std::tr1::placeholders;
-    base64<char>::decode(in, end, out, std::tr1::bind(std::isspace<char>, _1, std::locale()));
+    stlencoders::base64<char>::decode(in, end, out, std::tr1::bind(std::isspace<char>, _1, std::locale()));
 #else
-    base64<char>::decode(in, end, out, std::bind2nd(std::ptr_fun(std::isspace<char>), std::locale()));
+    stlencoders::base64<char>::decode(in, end, out, std::bind2nd(std::ptr_fun(std::isspace<char>), std::locale()));
 #endif
 }
 
 void wstring_sample()
 {
-    using namespace stlencoders;
     typedef unsigned char uint8_t;
 
     std::wstring s(L"Zm9vYmFy");
     std::vector<uint8_t> v;
 
-    base64<char>::decode(s.begin(), s.end(), std::back_inserter(v));
+    stlencoders::base64<char>::decode(s.begin(), s.end(), std::back_inserter(v));
 }
 
 
