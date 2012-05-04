@@ -307,9 +307,7 @@ void usage(std::ostream& os, const char* progname)
 #endif
        << "  -l         list supported encoding schemes\n"
        << "  -n NRUNS   number of iterations per test (default 100)\n"
-       << "  -w         include wide character encodings\n"
-       << "\n"
-       << "All times are reported in microseconds.\n";
+       << "  -w         include wide character encodings\n";
 }
 
 int main(int argc, char* argv[])
