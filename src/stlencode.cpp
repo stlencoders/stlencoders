@@ -58,6 +58,14 @@ OutputIterator encode(std::istream& is, OutputIterator out)
 }
 
 template<class Codec, class OutputIterator>
+OutputIterator encode(std::istream& is, OutputIterator out, bool pad)
+{
+    std::istreambuf_iterator<char> in(is);
+    std::istreambuf_iterator<char> end;
+    return Codec::encode(in, end, out, pad);
+}
+
+template<class Codec, class OutputIterator>
 OutputIterator fencode(const char* filename, OutputIterator out)
 {
     if (!filename || std::strcmp(filename, "-") == 0) {
@@ -71,9 +79,23 @@ OutputIterator fencode(const char* filename, OutputIterator out)
     return encode<Codec>(is, out);
 }
 
+template<class Codec, class OutputIterator>
+OutputIterator fencode(const char* filename, OutputIterator out, bool pad)
+{
+    if (!filename || std::strcmp(filename, "-") == 0) {
+        return encode<Codec>(std::cin, out, pad);
+    }
+
+    std::ifstream is(filename);
+    if (!is) {
+        throw std::runtime_error("cannot open file");
+    }
+    return encode<Codec>(is, out, pad);
+}
+
 template<template<class T> class encoding_traits, class OutputIterator>
 OutputIterator encode(const std::string& codec, const char* filename,
-                      OutputIterator out)
+                      OutputIterator out, bool pad)
 {
     using namespace stlencoders;
 
@@ -82,16 +104,16 @@ OutputIterator encode(const std::string& codec, const char* filename,
         return fencode<base16<char, traits> >(filename, out);
     } else if (codec == "base32") {
         typedef encoding_traits<base32_traits<char> > traits;
-        return fencode<base32<char, traits> >(filename, out);
+        return fencode<base32<char, traits> >(filename, out, pad);
     } else if (codec == "base32hex") {
         typedef encoding_traits<base32hex_traits<char> > traits;
-        return fencode<base32<char, traits> >(filename, out);
+        return fencode<base32<char, traits> >(filename, out, pad);
     } else if (codec == "base64") {
         typedef base64_traits<char> traits;
-        return fencode<base64<char, traits> >(filename, out);
+        return fencode<base64<char, traits> >(filename, out, pad);
     } else if (codec == "base64url") {
         typedef base64url_traits<char> traits;
-        return fencode<base64<char, traits> >(filename, out);
+        return fencode<base64<char, traits> >(filename, out, pad);
     } else {
         throw std::runtime_error("unknown encoding: '" + codec + "'");
     }
@@ -105,6 +127,7 @@ void usage(std::ostream& os, const char* progname)
        << "  -c NAME    output encoding (default 'base64')\n"
        << "  -l         list supported encoding schemes\n"
        << "  -m         use MIME line breaks (CRLF)\n"
+       << "  -n         no padding at the end of encoded data\n"
        << "  -u         use uppercase characters in encoding\n"
        << "  -w COLS    wrap output lines after COLS characters (default 76);\n"
        << "             use 0 to disable line wrapping\n"
@@ -118,8 +141,9 @@ int main(int argc, char* argv[])
     unsigned long wrap = 76;
     const char* endl = "\n";
     bool uppercase = false;
+    bool padding = true;
 
-    for (int c; (c = getopt(argc, argv, ":c:lmuw:")) != -1; ) {
+    for (int c; (c = getopt(argc, argv, ":c:lmnuw:")) != -1; ) {
         switch (c) {
         case 'c':
             codec = optarg;
@@ -131,6 +155,10 @@ int main(int argc, char* argv[])
 
         case 'm':
             endl = "\r\n";
+            break;
+
+        case 'n':
+            padding = false;
             break;
 
         case 'u':
@@ -156,11 +184,11 @@ int main(int argc, char* argv[])
 
         if (uppercase) {
             encode<upper_char_encoding_traits>(
-                codec, filename, line_wrapper(out, wrap, endl)
+                codec, filename, line_wrapper(out, wrap, endl), padding
                 );
         } else {
             encode<lower_char_encoding_traits>(
-                codec, filename, line_wrapper(out, wrap, endl)
+                codec, filename, line_wrapper(out, wrap, endl), padding
                 );
         }
 
