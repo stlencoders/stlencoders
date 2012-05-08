@@ -30,7 +30,7 @@ AX_CXX_HEADER_STDCXX_TR1
 AC_CHECK_HEADERS([getopt.h unistd.h])
 
 # check for stringencoders used by stlbench
-AC_CHECK_HEADERS([modp_b16.h modp_b64.h modp_b64w.h])
+AC_CHECK_HEADERS([modp_b2.h modp_b16.h modp_b64.h modp_b64w.h])
 AC_CHECK_LIB([modpbase64], [main], [stlbench_LDADD="-lmodpbase64 $stlbench_LDADD"])
 
 # check for apr-util used by stlbench

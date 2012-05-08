@@ -24,6 +24,7 @@
  * SOFTWARE.
  */
 
+#include <stlencoders/base2.hpp>
 #include <stlencoders/base16.hpp>
 #include <stlencoders/base32.hpp>
 #include <stlencoders/base64.hpp>
@@ -40,6 +41,10 @@
 
 #ifdef HAVE_CONFIG_H
 # include "config.h"
+#endif
+
+#ifdef HAVE_MODP_B2_H
+# include <modp_b2.h>
 #endif
 
 #ifdef HAVE_MODP_B16_H
@@ -72,6 +77,32 @@ namespace {
 
         typedef unsigned char int_type;
     };
+
+#ifdef HAVE_MODP_B2_H
+    struct modp_b2 : public base {
+        static char_type* encode(const int_type* first, const int_type* last,
+                                 char_type* result)
+        {
+            const char* src = reinterpret_cast<const char*>(first);
+            return result + modp_b2_encode(result, src, last - first);
+        }
+
+        static int_type* decode(const char_type* first, const char_type* last,
+                                int_type* result)
+        {
+            char* dst = reinterpret_cast<char*>(result);
+            return result + modp_b2_decode(dst, first, last - first);
+        }
+
+        static std::size_t max_encode_size(std::size_t n) {
+            return modp_b2_encode_len(n);
+        }
+
+        static std::size_t max_decode_size(std::size_t n) {
+            return modp_b2_decode_len(n);
+        }
+    };
+#endif
 
 #ifdef HAVE_MODP_B16_H
     struct modp_b16 : public base {
@@ -323,7 +354,7 @@ int main(int argc, char* argv[])
             break;
 
         case 'l':
-            std::cout << "base16 base32 base32hex base64 base64url\n";
+            std::cout << "base2 base16 base32 base32hex base64 base64url\n";
             return EXIT_SUCCESS;
 
         case 'n':
@@ -355,6 +386,11 @@ int main(int argc, char* argv[])
 
     using namespace stlencoders;
 
+    if (std::find(args.begin(), args.end(), "base2") != args.end()) {
+        typedef stlencoders::base2<char> base2;
+    	run<base2>(std::cout, "base2<char>::", nruns);
+    }
+
     if (std::find(args.begin(), args.end(), "base16") != args.end()) {
         typedef stlencoders::base16<char> base16;
     	run<base16>(std::cout, "base16<char>::", nruns);
@@ -383,6 +419,11 @@ int main(int argc, char* argv[])
     }
 
     if (wchar) {
+        if (std::find(args.begin(), args.end(), "base2") != args.end()) {
+            typedef stlencoders::base2<wchar_t> base2;
+            run<base2>(std::cout, "base2<wchar_t>::", nruns);
+        }
+
         if (std::find(args.begin(), args.end(), "base16") != args.end()) {
             typedef stlencoders::base16<wchar_t> base16;
             run<base16>(std::cout, "base16<wchar_t>::", nruns);
@@ -412,6 +453,12 @@ int main(int argc, char* argv[])
     }
 
     if (all) {
+#ifdef HAVE_MODP_B2_H
+        if (std::find(args.begin(), args.end(), "base2") != args.end()) {
+            run<modp_b2>(std::cout, "modp_b2_", nruns);
+        }
+#endif
+
 #ifdef HAVE_MODP_B16_H
         if (std::find(args.begin(), args.end(), "base16") != args.end()) {
             run<modp_b16>(std::cout, "modp_b16_", nruns);

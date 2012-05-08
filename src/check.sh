@@ -15,7 +15,7 @@ die () {
 
 for file in "${@:-$0}"; do
     echo "$0: checking '$file'" >&2
-    for base in base16 base32 base32hex base64 base64url; do
+    for base in base2 base16 base32 base32hex base64 base64url; do
         $STLENCODE -c $base "$file" | $STLDECODE -c $base | $CMP "$file" \
             || die "$file: $base error"
     done
