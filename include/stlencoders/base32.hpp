@@ -413,12 +413,16 @@ namespace stlencoders {
          * @param result an output iterator to the encoded character
          * range
          *
+         * @param pad if @c true, performs padding at the end of the
+         * encoded character range
+         *
          * @return an output iterator referring to one past the last
          * value assigned to the output range
          */
         template<class InputIterator, class OutputIterator>
         static OutputIterator encode(
-            InputIterator first, InputIterator last, OutputIterator result
+            InputIterator first, InputIterator last, OutputIterator result,
+            bool pad = true
             )
         {
             for (; first != last; ++first) {
@@ -428,7 +432,7 @@ namespace stlencoders {
 
                 if (++first == last) {
                     *result = traits::to_char_type((c0 & 0x07) << 2);
-                    return pad_n(++result, 6);
+                    return pad ? pad_n(++result, 6) : result;
                 }
 
                 int_type c1 = *first;
@@ -439,7 +443,7 @@ namespace stlencoders {
 
                 if (++first == last) {
                     *result = traits::to_char_type((c1 & 0x01) << 4);
-                    return pad_n(++result, 4);
+                    return pad ? pad_n(++result, 4) : result;
                 }
 
                 int_type c2 = *first;
@@ -448,7 +452,7 @@ namespace stlencoders {
 
                 if (++first == last) {
                     *result = traits::to_char_type((c2 & 0x0f) << 1);
-                    return pad_n(++result, 3);
+                    return pad ? pad_n(++result, 3) : result;
                 }
 
                 int_type c3 = *first;
@@ -459,7 +463,7 @@ namespace stlencoders {
 
                 if (++first == last) {
                     *result = traits::to_char_type((c3 & 0x03) << 3);
-                    return pad_n(++result, 1);
+                    return pad ? pad_n(++result, 1) : result;
                 }
 
                 int_type c4 = *first;
@@ -492,16 +496,20 @@ namespace stlencoders {
          * @param result an output iterator to the encoded character
          * range
          *
+         * @param pad if @c true, performs padding at the end of the
+         * encoded character range
+         *
          * @return an output iterator referring to one past the last
          * value assigned to the output range
          */
         template<class InputIterator, class OutputIterator>
         static OutputIterator encode_lower(
-            InputIterator first, InputIterator last, OutputIterator result
+            InputIterator first, InputIterator last, OutputIterator result,
+            bool pad = true
             )
         {
             typedef lower_char_encoding_traits<traits> lower_traits;
-            return base32<charT, lower_traits>::encode(first, last, result);
+            return base32<charT, lower_traits>::encode(first, last, result, pad);
         }
 
         /**
@@ -524,16 +532,20 @@ namespace stlencoders {
          * @param result an output iterator to the encoded character
          * range
          *
+         * @param pad if @c true, performs padding at the end of the
+         * encoded character range
+         *
          * @return an output iterator referring to one past the last
          * value assigned to the output range
          */
         template<class InputIterator, class OutputIterator>
         static OutputIterator encode_upper(
-            InputIterator first, InputIterator last, OutputIterator result
+            InputIterator first, InputIterator last, OutputIterator result,
+            bool pad = true
             )
         {
             typedef upper_char_encoding_traits<traits> upper_traits;
-            return base32<charT, upper_traits>::encode(first, last, result);
+            return base32<charT, upper_traits>::encode(first, last, result, pad);
         }
 
         /**

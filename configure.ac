@@ -10,8 +10,8 @@ AC_CONFIG_MACRO_DIR([m4])
 AC_CONFIG_FILES([
         Doxyfile
         Makefile
-        src/Makefile
         include/Makefile
+        src/Makefile
         tests/Makefile
 ])
 
@@ -42,7 +42,6 @@ AC_SUBST([stlbench_LDADD])
 
 # automake
 AM_INIT_AUTOMAKE([-Wall -Werror foreign])
-AM_CONDITIONAL([HAVE_DOXYGEN], [test -n "$DOXYGEN"])
 
 # done
 AC_OUTPUT

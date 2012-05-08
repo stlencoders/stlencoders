@@ -6,8 +6,6 @@ SUBDIRS = src include tests
 
 EXTRA_DIST = Doxymain stlencoders.sln stlencoders.props
 
-if HAVE_DOXYGEN
-
 doc:
 	$(DOXYGEN) Doxyfile
 
@@ -29,5 +27,3 @@ clean-local:
 	rm -rf doc
 
 .PHONY: doc docdistdir docdist docdist-gzip docdist-zip
-
-endif
