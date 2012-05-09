@@ -100,7 +100,7 @@ namespace stlencoders {
          * the encoding alphabet.
          */
         static int_type inv() {
-            return 0xff;
+            return 2;
         }
     };
 
@@ -279,18 +279,43 @@ namespace stlencoders {
                     return result;
                 }
 
-                c0 <<= 7;
-
-                for (int i = 6; i >= 0; --i) {
-                    int_type c = seek(first, last, skip);
-                    if (traits::eq_int_type(c, traits::inv())) {
-                        throw invalid_length("base2 decode error");
-                    }
-
-                    c0 |= (c << i);
+                int_type c1 = seek(first, last, skip);
+                if (traits::eq_int_type(c1, traits::inv())) {
+                    throw invalid_length("base2 decode error");
                 }
 
-                *result = c0;
+                int_type c2 = seek(first, last, skip);
+                if (traits::eq_int_type(c2, traits::inv())) {
+                    throw invalid_length("base2 decode error");
+                }
+
+                int_type c3 = seek(first, last, skip);
+                if (traits::eq_int_type(c3, traits::inv())) {
+                    throw invalid_length("base2 decode error");
+                }
+
+                int_type c4 = seek(first, last, skip);
+                if (traits::eq_int_type(c4, traits::inv())) {
+                    throw invalid_length("base2 decode error");
+                }
+
+                int_type c5 = seek(first, last, skip);
+                if (traits::eq_int_type(c5, traits::inv())) {
+                    throw invalid_length("base2 decode error");
+                }
+
+                int_type c6 = seek(first, last, skip);
+                if (traits::eq_int_type(c6, traits::inv())) {
+                    throw invalid_length("base2 decode error");
+                }
+
+                int_type c7 = seek(first, last, skip);
+                if (traits::eq_int_type(c7, traits::inv())) {
+                    throw invalid_length("base2 decode error");
+                }
+
+                *result = (c0 << 7 | c1 << 6 | c2 << 5 | c3 << 4 |
+                           c4 << 3 | c5 << 2 | c6 << 1 | c7);
                 ++result;
             } while (first != last);
 
