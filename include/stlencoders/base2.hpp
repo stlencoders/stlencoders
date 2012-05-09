@@ -173,11 +173,22 @@ namespace stlencoders {
         {
             for (; first != last; ++first) {
                 int_type c = *first;
-
-                for (int i = 7; i >= 0; --i) {
-                    *result = traits::to_char_type((c >> i) & 1);
-                    ++result;
-                }
+                *result = traits::to_char_type(c >> 7 & 1);
+                ++result;
+                *result = traits::to_char_type(c >> 6 & 1);
+                ++result;
+                *result = traits::to_char_type(c >> 5 & 1);
+                ++result;
+                *result = traits::to_char_type(c >> 4 & 1);
+                ++result;
+                *result = traits::to_char_type(c >> 3 & 1);
+                ++result;
+                *result = traits::to_char_type(c >> 2 & 1);
+                ++result;
+                *result = traits::to_char_type(c >> 1 & 1);
+                ++result;
+                *result = traits::to_char_type(c & 1);
+                ++result;
             }
 
             return result;
