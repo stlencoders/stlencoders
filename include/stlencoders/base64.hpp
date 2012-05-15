@@ -354,8 +354,8 @@ namespace stlencoders {
                 ++result;
 
                 if (++first == last) {
-                    *result = traits::to_char_type((c0 & 0x03) << 4);
-                    return pad ? pad_n(++result, 2) : result;
+                    *result++ = traits::to_char_type((c0 & 0x03) << 4);
+                    return pad ? pad_n(result, 2) : result;
                 }
 
                 int_type c1 = *first;
@@ -363,8 +363,8 @@ namespace stlencoders {
                 ++result;
 
                 if (++first == last) {
-                    *result = traits::to_char_type((c1 & 0x0f) << 2);
-                    return pad ? pad_n(++result, 1) : result;
+                    *result++ = traits::to_char_type((c1 & 0x0f) << 2);
+                    return pad ? pad_n(result, 1) : result;
                 }
 
                 int_type c2 = *first;

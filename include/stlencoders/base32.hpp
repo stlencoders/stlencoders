@@ -431,8 +431,8 @@ namespace stlencoders {
                 ++result;
 
                 if (++first == last) {
-                    *result = traits::to_char_type((c0 & 0x07) << 2);
-                    return pad ? pad_n(++result, 6) : result;
+                    *result++ = traits::to_char_type((c0 & 0x07) << 2);
+                    return pad ? pad_n(result, 6) : result;
                 }
 
                 int_type c1 = *first;
@@ -442,8 +442,8 @@ namespace stlencoders {
                 ++result;
 
                 if (++first == last) {
-                    *result = traits::to_char_type((c1 & 0x01) << 4);
-                    return pad ? pad_n(++result, 4) : result;
+                    *result++ = traits::to_char_type((c1 & 0x01) << 4);
+                    return pad ? pad_n(result, 4) : result;
                 }
 
                 int_type c2 = *first;
@@ -451,8 +451,8 @@ namespace stlencoders {
                 ++result;
 
                 if (++first == last) {
-                    *result = traits::to_char_type((c2 & 0x0f) << 1);
-                    return pad ? pad_n(++result, 3) : result;
+                    *result++ = traits::to_char_type((c2 & 0x0f) << 1);
+                    return pad ? pad_n(result, 3) : result;
                 }
 
                 int_type c3 = *first;
@@ -462,8 +462,8 @@ namespace stlencoders {
                 ++result;
 
                 if (++first == last) {
-                    *result = traits::to_char_type((c3 & 0x03) << 3);
-                    return pad ? pad_n(++result, 1) : result;
+                    *result++ = traits::to_char_type((c3 & 0x03) << 3);
+                    return pad ? pad_n(result, 1) : result;
                 }
 
                 int_type c4 = *first;

@@ -62,8 +62,22 @@ std::basic_string<typename C::char_type> strenc(const std::string& src)
     typedef typename std::basic_string<char_type> string_type;
     typedef typename string_type::iterator iterator_type;
 
-    string_type dst(C::max_encode_size(src.size()), '\xff');
+    string_type dst(C::max_encode_size(src.size()), '\0');
     iterator_type end = C::encode(src.begin(), src.end(), dst.begin());
+    assert(end - dst.begin() <= dst.end() - dst.begin());
+    dst.resize(end - dst.begin());
+    return dst;
+}
+
+template<class C>
+std::basic_string<typename C::char_type> strenc(const std::string& src, bool pad)
+{
+    typedef typename C::char_type char_type;
+    typedef typename std::basic_string<char_type> string_type;
+    typedef typename string_type::iterator iterator_type;
+
+    string_type dst(C::max_encode_size(src.size()), '\0');
+    iterator_type end = C::encode(src.begin(), src.end(), dst.begin(), pad);
     assert(end - dst.begin() <= dst.end() - dst.begin());
     dst.resize(end - dst.begin());
     return dst;
@@ -75,7 +89,7 @@ std::string strdec(const std::basic_string<typename C::char_type>& src)
     typedef typename std::string string_type;
     typedef typename std::string::iterator iterator_type;
 
-    string_type dst(C::max_decode_size(src.size()), '\xff');
+    string_type dst(C::max_decode_size(src.size()), '\0');
     iterator_type end = C::decode(src.begin(), src.end(), dst.begin());
     assert(end - dst.begin() <= dst.end() - dst.begin());
     dst.resize(end - dst.begin());

@@ -58,6 +58,26 @@ int main()
     assert(strdec<base64>("Zm9vYmE=") == "fooba");
     assert(strdec<base64>("Zm9vYmFy") == "foobar");
 
+    // RFC 4648 test vectors - no padding
+
+    assert(strenc<base64>("", false) == "");
+    assert(strenc<base64>("f", false) == "Zg");
+    assert(strenc<base64>("fo", false) == "Zm8");
+    assert(strenc<base64>("foo", false) == "Zm9v");
+    assert(strenc<base64>("foob", false) == "Zm9vYg");
+    assert(strenc<base64>("fooba", false) == "Zm9vYmE");
+    assert(strenc<base64>("foobar", false) == "Zm9vYmFy");
+
+    assert(strdec<base64>("") == "");
+    assert(strdec<base64>("Zg") == "f");
+    assert(strdec<base64>("Zm8") == "fo");
+    assert(strdec<base64>("Zm9v") == "foo");
+    assert(strdec<base64>("Zm9vYg") == "foob");
+    assert(strdec<base64>("Zm9vYmE") == "fooba");
+    assert(strdec<base64>("Zm9vYmFy") == "foobar");
+
+    // RFC 4648 test vectors - wide characters
+
     assert(strenc<wbase64>("") == L"");
     assert(strenc<wbase64>("f") == L"Zg==");
     assert(strenc<wbase64>("fo") == L"Zm8=");

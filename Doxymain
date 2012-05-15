@@ -309,8 +309,9 @@
  * @subsection optcodec Optional Codec Members
  *
  * A codec class may define the following members depending on the
- * characteristics of the particular encoding, i.e. whether the
- * encoding supports both upper- and lowercase alphabets.
+ * characteristics of the particular encoding, e.g. whether the
+ * encoding uses padding, or the encoding supports both upper- and
+ * lowercase alphabets.
  *
  * <table>
  *   <tr>
@@ -318,6 +319,18 @@
  *     <th>Return Type</th>
  *     <th>Description</th>
  *     <th>Complexity</th>
+ *   </tr>
+ *   <tr>
+ *     <td class="memname">codec::encode(i, j, r, f)</td>
+ *     <td>type of @c r</td>
+ *     <td>
+ *       Encodes the octet range <c>[i, j)</c> into the output range
+ *       beginning at @c r.  Performs padding at the end of the output
+ *       range if and only if @c f is @c true.  Returns an iterator
+ *       referring to one past the last value assigned to the output
+ *       range.
+ *     </td>
+ *     <td>linear</td>
  *   </tr>
  *   <tr>
  *     <td class="memname">codec::encode_upper(i, j, r)</td>
@@ -342,6 +355,32 @@
  *       padding if supported by the encoding.  Returns an iterator
  *       referring to one past the last value assigned to the output
  *       range.
+ *     </td>
+ *     <td>linear</td>
+ *   </tr>
+ *   <tr>
+ *     <td class="memname">codec::encode_upper(i, j, r, f)</td>
+ *     <td>type of @c r</td>
+ *     <td>
+ *       Encodes the octet range <c>[i, j)</c> into the output range
+ *       beginning at @c r, using the uppercase encoding alphabet as
+ *       defined by <c>traits::to_char_type_upper</c>. Performs
+ *       padding at the end of the output range if and only if @c f is
+ *       @c true.  Returns an iterator referring to one past the last
+ *       value assigned to the output range.
+ *     </td>
+ *     <td>linear</td>
+ *   </tr>
+ *   <tr>
+ *     <td class="memname">codec::encode_lower(i, j, r, f)</td>
+ *     <td>type of @c r</td>
+ *     <td>
+ *       Encodes the octet range <c>[i, j)</c> into the output range
+ *       beginning at @c r, using the lowercase encoding alphabet as
+ *       defined by <c>traits::to_char_type_lower</c>.  Performs
+ *       padding at the end of the output range if and only if @c f is
+ *       @c true.  Returns an iterator referring to one past the last
+ *       value assigned to the output range.
  *     </td>
  *     <td>linear</td>
  *   </tr>

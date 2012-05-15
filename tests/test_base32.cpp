@@ -58,6 +58,26 @@ int main()
     assert(strdec<base32>("MZXW6YTB") == "fooba");
     assert(strdec<base32>("MZXW6YTBOI======") == "foobar");
 
+    // RFC 4648 test vectors - no padding
+
+    assert(strenc<base32>("", false) == "");
+    assert(strenc<base32>("f", false) == "MY");
+    assert(strenc<base32>("fo", false) == "MZXQ");
+    assert(strenc<base32>("foo", false) == "MZXW6");
+    assert(strenc<base32>("foob", false) == "MZXW6YQ");
+    assert(strenc<base32>("fooba", false) == "MZXW6YTB");
+    assert(strenc<base32>("foobar", false) == "MZXW6YTBOI");
+
+    assert(strdec<base32>("") == "");
+    assert(strdec<base32>("MY") == "f");
+    assert(strdec<base32>("MZXQ") == "fo");
+    assert(strdec<base32>("MZXW6") == "foo");
+    assert(strdec<base32>("MZXW6YQ") == "foob");
+    assert(strdec<base32>("MZXW6YTB") == "fooba");
+    assert(strdec<base32>("MZXW6YTBOI") == "foobar");
+
+    // RFC 4648 test vectors - wide characters
+
     assert(strenc<wbase32>("") == L"");
     assert(strenc<wbase32>("f") == L"MY======");
     assert(strenc<wbase32>("fo") == L"MZXQ====");
@@ -73,6 +93,8 @@ int main()
     assert(strdec<wbase32>(L"MZXW6YQ=") == "foob");
     assert(strdec<wbase32>(L"MZXW6YTB") == "fooba");
     assert(strdec<wbase32>(L"MZXW6YTBOI======") == "foobar");
+
+    // RFC 4648 test vectors - base32hex
 
     assert(strenc<base32hex>("") == "");
     assert(strenc<base32hex>("f") == "CO======");
