@@ -626,7 +626,7 @@ namespace stlencoders {
             InputIterator first, InputIterator last, OutputIterator result,
             Predicate skip)
         {
-            while (first != last) {
+            for (;;) {
                 int_type c0 = seek(first, last, skip);
                 if (traits::eq_int_type(c0, traits::inv())) {
                     return result;
@@ -682,8 +682,6 @@ namespace stlencoders {
                 *result = (c6 & 0x07) << 5 | c7;
                 ++result;
             }
-
-            return result;
         }
 
         /**
