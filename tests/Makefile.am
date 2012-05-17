@@ -5,10 +5,8 @@ AM_CPPFLAGS = -I$(top_srcdir)/include
 noinst_HEADERS = util.hpp
 
 check_PROGRAMS = \
-	test_sample test_lookup test_traits \
+	test_lookup test_traits \
 	test_base16 test_base32 test_base64
-
-test_sample_SOURCES = test_sample.cpp
 
 test_lookup_SOURCES = test_lookup.cpp
 
