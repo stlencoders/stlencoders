@@ -371,7 +371,7 @@ namespace stlencoders {
             Predicate skip
             )
         {
-            do {
+            while (first != last) {
                 int_type c0 = seek(first, last, skip);
                 if (traits::eq_int_type(c0, traits::inv())) {
                     return result;
@@ -384,7 +384,7 @@ namespace stlencoders {
 
                 *result = c0 << 4 | c1;
                 ++result;
-            } while (first != last);
+            }
 
             return result;
         }
