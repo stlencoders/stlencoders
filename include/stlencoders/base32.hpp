@@ -38,7 +38,7 @@
  */
 namespace stlencoders {
     namespace detail {
-        template<char C> struct base32_table { enum { value = 0xff }; };
+        template<char C> struct base32_table { enum { value = 0x20 }; };
 
         template<> struct base32_table<'A'> { enum { value = 0x00 }; };
         template<> struct base32_table<'B'> { enum { value = 0x01 }; };
@@ -100,7 +100,7 @@ namespace stlencoders {
         template<> struct base32_table<'y'> { enum { value = base32_table<'Y'>::value }; };
         template<> struct base32_table<'z'> { enum { value = base32_table<'Z'>::value }; };
 
-        template<char C> struct base32hex_table { enum { value = 0xff }; };
+        template<char C> struct base32hex_table { enum { value = 0x20 }; };
 
         template<> struct base32hex_table<'0'> { enum { value = 0x00 }; };
         template<> struct base32hex_table<'1'> { enum { value = 0x01 }; };

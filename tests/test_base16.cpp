@@ -77,19 +77,19 @@ int main()
     assert(strdec<base16>("00") == std::string(1, '\x00'));
     assert(strenc<base16>(std::string(1, '\x01')) == "01");
     assert(strdec<base16>("01") == std::string(1, '\x01'));
-    assert(strenc<base16>(std::string(1, '\xff')) == "FF");
-    assert(strdec<base16>("FE") == std::string(1, '\xfe'));
     assert(strenc<base16>(std::string(1, '\xfe')) == "FE");
+    assert(strdec<base16>("FE") == std::string(1, '\xfe'));
+    assert(strenc<base16>(std::string(1, '\xff')) == "FF");
     assert(strdec<base16>("FF") == std::string(1, '\xff'));
 
     assert(strenc<wbase16>(std::string(1, '\x00')) == L"00");
     assert(strdec<wbase16>(L"00") == std::string(1, '\x00'));
     assert(strenc<wbase16>(std::string(1, '\x01')) == L"01");
     assert(strdec<wbase16>(L"01") == std::string(1, '\x01'));
-    assert(strenc<wbase16>(std::string(1, '\xff')) == L"FF");
-    assert(strdec<wbase16>(L"FF") == std::string(1, '\xff'));
     assert(strenc<wbase16>(std::string(1, '\xfe')) == L"FE");
     assert(strdec<wbase16>(L"FE") == std::string(1, '\xfe'));
+    assert(strenc<wbase16>(std::string(1, '\xff')) == L"FF");
+    assert(strdec<wbase16>(L"FF") == std::string(1, '\xff'));
 
     // error handling
 

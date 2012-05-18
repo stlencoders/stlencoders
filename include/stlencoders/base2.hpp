@@ -37,6 +37,13 @@
  * Implementation of the Base2 encoding scheme.
  */
 namespace stlencoders {
+    namespace detail {
+        template<char C> struct base2_table { enum { value = 2 }; };
+
+        template<> struct base2_table<'0'> { enum { value = 0 }; };
+        template<> struct base2_table<'1'> { enum { value = 1 }; };
+    }
+
     /**
      * @em %base2 character encoding traits class template.
      *
@@ -80,19 +87,19 @@ namespace stlencoders {
         }
 
         /**
-         * Returns the lowercase character representation of a 4-bit
-         * value.
+         * Returns the lowercase character representation of a single
+         * bit value.
          */
     	static char_type to_char_type(const int_type& c) {
-            return c ? '1' : '0';
+            return "01"[c];
         }
 
         /**
-         * Returns the 4-bit value represented by a character, or
+         * Returns the single bit value represented by a character, or
          * inv() for characters not in the encoding alphabet.
          */
     	static int_type to_int_type(const char_type& c) {
-            return (c == '0') ? 0 : (c == '1') ? 1 : inv();
+            return lookup<detail::base2_table, int_type>(c);
     	}
 
         /**
@@ -100,7 +107,7 @@ namespace stlencoders {
          * the encoding alphabet.
          */
         static int_type inv() {
-            return 2;
+            return detail::base2_table<'\0'>::value;
         }
     };
 
@@ -273,7 +280,7 @@ namespace stlencoders {
             Predicate skip
             )
         {
-            do {
+            for (;;) {
                 int_type c0 = seek(first, last, skip);
                 if (traits::eq_int_type(c0, traits::inv())) {
                     return result;
@@ -317,9 +324,7 @@ namespace stlencoders {
                 *result = (c0 << 7 | c1 << 6 | c2 << 5 | c3 << 4 |
                            c4 << 3 | c5 << 2 | c6 << 1 | c7);
                 ++result;
-            } while (first != last);
-
-            return result;
+            }
         }
 
         /**

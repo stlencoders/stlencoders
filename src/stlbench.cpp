@@ -373,6 +373,7 @@ int main(int argc, char* argv[])
 
     std::vector<std::string> args;
     if (optind == argc) {
+        args.push_back("base2");
         args.push_back("base16");
         args.push_back("base32");
         args.push_back("base64");

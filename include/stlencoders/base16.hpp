@@ -38,7 +38,7 @@
  */
 namespace stlencoders {
     namespace detail {
-        template<char C> struct base16_table { enum { value = 0xff }; };
+        template<char C> struct base16_table { enum { value = 0x10 }; };
 
         template<> struct base16_table<'0'> { enum { value = 0x00 }; };
         template<> struct base16_table<'1'> { enum { value = 0x01 }; };
