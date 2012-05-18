@@ -79,8 +79,14 @@ int main()
 
     // error handling
 
-    assert_throw(strdec<base2>("?0"), stlencoders::invalid_character);
-    assert_throw(strdec<base2>("0?"), stlencoders::invalid_character);
+    assert_throw(strdec<base2>("?0000000"), stlencoders::invalid_character);
+    assert_throw(strdec<base2>("0?000000"), stlencoders::invalid_character);
+    assert_throw(strdec<base2>("00?00000"), stlencoders::invalid_character);
+    assert_throw(strdec<base2>("000?0000"), stlencoders::invalid_character);
+    assert_throw(strdec<base2>("0000?000"), stlencoders::invalid_character);
+    assert_throw(strdec<base2>("00000?00"), stlencoders::invalid_character);
+    assert_throw(strdec<base2>("000000?0"), stlencoders::invalid_character);
+    assert_throw(strdec<base2>("0000000?"), stlencoders::invalid_character);
 
     assert_throw(strdec<base2>("0"), stlencoders::invalid_length);
     assert_throw(strdec<base2>("00"), stlencoders::invalid_length);

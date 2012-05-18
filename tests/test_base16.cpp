@@ -55,6 +55,8 @@ int main()
     assert(strdec<base16>("666F6F6261") == "fooba");
     assert(strdec<base16>("666F6F626172") == "foobar");
 
+    // RFC 4648 test vectors - wide characters
+
     assert(strenc<wbase16>("") == L"");
     assert(strenc<wbase16>("f") == L"66");
     assert(strenc<wbase16>("fo") == L"666F");

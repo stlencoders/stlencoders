@@ -58,23 +58,21 @@ int main()
     assert(strdec<base32>("MZXW6YTB") == "fooba");
     assert(strdec<base32>("MZXW6YTBOI======") == "foobar");
 
-    // RFC 4648 test vectors - no padding
+    assert(strenc<base32hex>("") == "");
+    assert(strenc<base32hex>("f") == "CO======");
+    assert(strenc<base32hex>("fo") == "CPNG====");
+    assert(strenc<base32hex>("foo") == "CPNMU===");
+    assert(strenc<base32hex>("foob") == "CPNMUOG=");
+    assert(strenc<base32hex>("fooba") == "CPNMUOJ1");
+    assert(strenc<base32hex>("foobar") == "CPNMUOJ1E8======");
 
-    assert(strenc<base32>("", false) == "");
-    assert(strenc<base32>("f", false) == "MY");
-    assert(strenc<base32>("fo", false) == "MZXQ");
-    assert(strenc<base32>("foo", false) == "MZXW6");
-    assert(strenc<base32>("foob", false) == "MZXW6YQ");
-    assert(strenc<base32>("fooba", false) == "MZXW6YTB");
-    assert(strenc<base32>("foobar", false) == "MZXW6YTBOI");
-
-    assert(strdec<base32>("") == "");
-    assert(strdec<base32>("MY") == "f");
-    assert(strdec<base32>("MZXQ") == "fo");
-    assert(strdec<base32>("MZXW6") == "foo");
-    assert(strdec<base32>("MZXW6YQ") == "foob");
-    assert(strdec<base32>("MZXW6YTB") == "fooba");
-    assert(strdec<base32>("MZXW6YTBOI") == "foobar");
+    assert(strdec<base32hex>("") == "");
+    assert(strdec<base32hex>("CO======") == "f");
+    assert(strdec<base32hex>("CPNG====") == "fo");
+    assert(strdec<base32hex>("CPNMU===") == "foo");
+    assert(strdec<base32hex>("CPNMUOG=") == "foob");
+    assert(strdec<base32hex>("CPNMUOJ1") == "fooba");
+    assert(strdec<base32hex>("CPNMUOJ1E8======") == "foobar");
 
     // RFC 4648 test vectors - wide characters
 
@@ -94,23 +92,55 @@ int main()
     assert(strdec<wbase32>(L"MZXW6YTB") == "fooba");
     assert(strdec<wbase32>(L"MZXW6YTBOI======") == "foobar");
 
-    // RFC 4648 test vectors - base32hex
+    assert(strenc<wbase32hex>("") == L"");
+    assert(strenc<wbase32hex>("f") == L"CO======");
+    assert(strenc<wbase32hex>("fo") == L"CPNG====");
+    assert(strenc<wbase32hex>("foo") == L"CPNMU===");
+    assert(strenc<wbase32hex>("foob") == L"CPNMUOG=");
+    assert(strenc<wbase32hex>("fooba") == L"CPNMUOJ1");
+    assert(strenc<wbase32hex>("foobar") == L"CPNMUOJ1E8======");
 
-    assert(strenc<base32hex>("") == "");
-    assert(strenc<base32hex>("f") == "CO======");
-    assert(strenc<base32hex>("fo") == "CPNG====");
-    assert(strenc<base32hex>("foo") == "CPNMU===");
-    assert(strenc<base32hex>("foob") == "CPNMUOG=");
-    assert(strenc<base32hex>("fooba") == "CPNMUOJ1");
-    assert(strenc<base32hex>("foobar") == "CPNMUOJ1E8======");
+    assert(strdec<wbase32hex>(L"") == "");
+    assert(strdec<wbase32hex>(L"CO======") == "f");
+    assert(strdec<wbase32hex>(L"CPNG====") == "fo");
+    assert(strdec<wbase32hex>(L"CPNMU===") == "foo");
+    assert(strdec<wbase32hex>(L"CPNMUOG=") == "foob");
+    assert(strdec<wbase32hex>(L"CPNMUOJ1") == "fooba");
+    assert(strdec<wbase32hex>(L"CPNMUOJ1E8======") == "foobar");
+
+    // RFC 4648 test vectors - no padding
+
+    assert(strenc<base32>("", false) == "");
+    assert(strenc<base32>("f", false) == "MY");
+    assert(strenc<base32>("fo", false) == "MZXQ");
+    assert(strenc<base32>("foo", false) == "MZXW6");
+    assert(strenc<base32>("foob", false) == "MZXW6YQ");
+    assert(strenc<base32>("fooba", false) == "MZXW6YTB");
+    assert(strenc<base32>("foobar", false) == "MZXW6YTBOI");
+
+    assert(strdec<base32>("") == "");
+    assert(strdec<base32>("MY") == "f");
+    assert(strdec<base32>("MZXQ") == "fo");
+    assert(strdec<base32>("MZXW6") == "foo");
+    assert(strdec<base32>("MZXW6YQ") == "foob");
+    assert(strdec<base32>("MZXW6YTB") == "fooba");
+    assert(strdec<base32>("MZXW6YTBOI") == "foobar");
+
+    assert(strenc<base32hex>("", false) == "");
+    assert(strenc<base32hex>("f", false) == "CO");
+    assert(strenc<base32hex>("fo", false) == "CPNG");
+    assert(strenc<base32hex>("foo", false) == "CPNMU");
+    assert(strenc<base32hex>("foob", false) == "CPNMUOG");
+    assert(strenc<base32hex>("fooba", false) == "CPNMUOJ1");
+    assert(strenc<base32hex>("foobar", false) == "CPNMUOJ1E8");
 
     assert(strdec<base32hex>("") == "");
-    assert(strdec<base32hex>("CO======") == "f");
-    assert(strdec<base32hex>("CPNG====") == "fo");
-    assert(strdec<base32hex>("CPNMU===") == "foo");
-    assert(strdec<base32hex>("CPNMUOG=") == "foob");
+    assert(strdec<base32hex>("CO") == "f");
+    assert(strdec<base32hex>("CPNG") == "fo");
+    assert(strdec<base32hex>("CPNMU") == "foo");
+    assert(strdec<base32hex>("CPNMUOG") == "foob");
     assert(strdec<base32hex>("CPNMUOJ1") == "fooba");
-    assert(strdec<base32hex>("CPNMUOJ1E8======") == "foobar");
+    assert(strdec<base32hex>("CPNMUOJ1E8") == "foobar");
 
     // test some special bit patterns
 
@@ -136,13 +166,13 @@ int main()
 
     // error handling
 
-    assert_throw(strdec<base32>("?======="), stlencoders::invalid_character);
-    assert_throw(strdec<base32>("A?======"), stlencoders::invalid_character);
-    assert_throw(strdec<base32>("AA?====="), stlencoders::invalid_character);
-    assert_throw(strdec<base32>("AAA?===="), stlencoders::invalid_character);
-    assert_throw(strdec<base32>("AAAA?==="), stlencoders::invalid_character);
-    assert_throw(strdec<base32>("AAAAA?=="), stlencoders::invalid_character);
-    assert_throw(strdec<base32>("AAAAAA?="), stlencoders::invalid_character);
+    assert_throw(strdec<base32>("?AAAAAAA"), stlencoders::invalid_character);
+    assert_throw(strdec<base32>("A?AAAAAA"), stlencoders::invalid_character);
+    assert_throw(strdec<base32>("AA?AAAAA"), stlencoders::invalid_character);
+    assert_throw(strdec<base32>("AAA?AAAA"), stlencoders::invalid_character);
+    assert_throw(strdec<base32>("AAAA?AAA"), stlencoders::invalid_character);
+    assert_throw(strdec<base32>("AAAAA?AA"), stlencoders::invalid_character);
+    assert_throw(strdec<base32>("AAAAAA?A"), stlencoders::invalid_character);
     assert_throw(strdec<base32>("AAAAAAA?"), stlencoders::invalid_character);
 
     assert_throw(strdec<base32>("A======="), stlencoders::invalid_length);

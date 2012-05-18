@@ -58,6 +58,24 @@ int main()
     assert(strdec<base64>("Zm9vYmE=") == "fooba");
     assert(strdec<base64>("Zm9vYmFy") == "foobar");
 
+    // RFC 4648 test vectors - wide characters
+
+    assert(strenc<wbase64>("") == L"");
+    assert(strenc<wbase64>("f") == L"Zg==");
+    assert(strenc<wbase64>("fo") == L"Zm8=");
+    assert(strenc<wbase64>("foo") == L"Zm9v");
+    assert(strenc<wbase64>("foob") == L"Zm9vYg==");
+    assert(strenc<wbase64>("fooba") == L"Zm9vYmE=");
+    assert(strenc<wbase64>("foobar") == L"Zm9vYmFy");
+
+    assert(strdec<wbase64>(L"") == "");
+    assert(strdec<wbase64>(L"Zg==") == "f");
+    assert(strdec<wbase64>(L"Zm8=") == "fo");
+    assert(strdec<wbase64>(L"Zm9v") == "foo");
+    assert(strdec<wbase64>(L"Zm9vYg==") == "foob");
+    assert(strdec<wbase64>(L"Zm9vYmE=") == "fooba");
+    assert(strdec<wbase64>(L"Zm9vYmFy") == "foobar");
+
     // RFC 4648 test vectors - no padding
 
     assert(strenc<base64>("", false) == "");
@@ -76,23 +94,39 @@ int main()
     assert(strdec<base64>("Zm9vYmE") == "fooba");
     assert(strdec<base64>("Zm9vYmFy") == "foobar");
 
-    // RFC 4648 test vectors - wide characters
+    // RFC 4648 test vectors - base64url scheme
 
-    assert(strenc<wbase64>("") == L"");
-    assert(strenc<wbase64>("f") == L"Zg==");
-    assert(strenc<wbase64>("fo") == L"Zm8=");
-    assert(strenc<wbase64>("foo") == L"Zm9v");
-    assert(strenc<wbase64>("foob") == L"Zm9vYg==");
-    assert(strenc<wbase64>("fooba") == L"Zm9vYmE=");
-    assert(strenc<wbase64>("foobar") == L"Zm9vYmFy");
+    assert(strenc<base64url>("") == "");
+    assert(strenc<base64url>("f") == "Zg==");
+    assert(strenc<base64url>("fo") == "Zm8=");
+    assert(strenc<base64url>("foo") == "Zm9v");
+    assert(strenc<base64url>("foob") == "Zm9vYg==");
+    assert(strenc<base64url>("fooba") == "Zm9vYmE=");
+    assert(strenc<base64url>("foobar") == "Zm9vYmFy");
 
-    assert(strdec<wbase64>(L"") == "");
-    assert(strdec<wbase64>(L"Zg==") == "f");
-    assert(strdec<wbase64>(L"Zm8=") == "fo");
-    assert(strdec<wbase64>(L"Zm9v") == "foo");
-    assert(strdec<wbase64>(L"Zm9vYg==") == "foob");
-    assert(strdec<wbase64>(L"Zm9vYmE=") == "fooba");
-    assert(strdec<wbase64>(L"Zm9vYmFy") == "foobar");
+    assert(strdec<base64url>("") == "");
+    assert(strdec<base64url>("Zg==") == "f");
+    assert(strdec<base64url>("Zm8=") == "fo");
+    assert(strdec<base64url>("Zm9v") == "foo");
+    assert(strdec<base64url>("Zm9vYg==") == "foob");
+    assert(strdec<base64url>("Zm9vYmE=") == "fooba");
+    assert(strdec<base64url>("Zm9vYmFy") == "foobar");
+
+    assert(strenc<wbase64url>("") == L"");
+    assert(strenc<wbase64url>("f") == L"Zg==");
+    assert(strenc<wbase64url>("fo") == L"Zm8=");
+    assert(strenc<wbase64url>("foo") == L"Zm9v");
+    assert(strenc<wbase64url>("foob") == L"Zm9vYg==");
+    assert(strenc<wbase64url>("fooba") == L"Zm9vYmE=");
+    assert(strenc<wbase64url>("foobar") == L"Zm9vYmFy");
+
+    assert(strdec<wbase64url>(L"") == "");
+    assert(strdec<wbase64url>(L"Zg==") == "f");
+    assert(strdec<wbase64url>(L"Zm8=") == "fo");
+    assert(strdec<wbase64url>(L"Zm9v") == "foo");
+    assert(strdec<wbase64url>(L"Zm9vYg==") == "foob");
+    assert(strdec<wbase64url>(L"Zm9vYmE=") == "fooba");
+    assert(strdec<wbase64url>(L"Zm9vYmFy") == "foobar");
 
     // test some special bit patterns
 
@@ -118,9 +152,9 @@ int main()
 
     // error handling
 
-    assert_throw(strdec<base64>("?==="), stlencoders::invalid_character);
-    assert_throw(strdec<base64>("A?=="), stlencoders::invalid_character);
-    assert_throw(strdec<base64>("AA?="), stlencoders::invalid_character);
+    assert_throw(strdec<base64>("?AAA"), stlencoders::invalid_character);
+    assert_throw(strdec<base64>("A?AA"), stlencoders::invalid_character);
+    assert_throw(strdec<base64>("AA?A"), stlencoders::invalid_character);
     assert_throw(strdec<base64>("AAA?"), stlencoders::invalid_character);
 
     assert_throw(strdec<base64>("A==="), stlencoders::invalid_length);
