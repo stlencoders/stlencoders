@@ -128,6 +128,24 @@ int main()
     assert(strdec<wbase64url>(L"Zm9vYmE=") == "fooba");
     assert(strdec<wbase64url>(L"Zm9vYmFy") == "foobar");
 
+    // RFC 4648 test vectors - decoding predicate
+
+    assert(strdec<base64>("", make_skip("")) == "");
+    assert(strdec<base64>("Zg==", make_skip("")) == "f");
+    assert(strdec<base64>("Zm8=", make_skip("")) == "fo");
+    assert(strdec<base64>("Zm9v", make_skip("")) == "foo");
+    assert(strdec<base64>("Zm9vYg==", make_skip("")) == "foob");
+    assert(strdec<base64>("Zm9vYmE=", make_skip("")) == "fooba");
+    assert(strdec<base64>("Zm9vYmFy", make_skip("")) == "foobar");
+
+    assert(strdec<wbase64>(L"", make_skip(L"")) == "");
+    assert(strdec<wbase64>(L"Zg==", make_skip(L"")) == "f");
+    assert(strdec<wbase64>(L"Zm8=", make_skip(L"")) == "fo");
+    assert(strdec<wbase64>(L"Zm9v", make_skip(L"")) == "foo");
+    assert(strdec<wbase64>(L"Zm9vYg==", make_skip(L"")) == "foob");
+    assert(strdec<wbase64>(L"Zm9vYmE=", make_skip(L"")) == "fooba");
+    assert(strdec<wbase64>(L"Zm9vYmFy", make_skip(L"")) == "foobar");
+
     // test some special bit patterns
 
     assert(strenc<base64>(std::string(3, '\x00')) == "AAAA");
@@ -153,14 +171,42 @@ int main()
     // test invalid length
 
     assert_throw(strdec<base64>("A"), stlencoders::invalid_length);
+    assert_throw(strdec<base64>("AAAAA"), stlencoders::invalid_length);
+
     assert_throw(strdec<base64>("A==="), stlencoders::invalid_length);
+    assert_throw(strdec<base64>("AAAAA==="), stlencoders::invalid_length);
 
     // test invalid character
 
-    assert_throw(strdec<base64>("?AAA"), stlencoders::invalid_character);
-    assert_throw(strdec<base64>("A?AA"), stlencoders::invalid_character);
-    assert_throw(strdec<base64>("AA?A"), stlencoders::invalid_character);
-    assert_throw(strdec<base64>("AAA?"), stlencoders::invalid_character);
+    assert_throw(strdec<base64>("?AAAA"), stlencoders::invalid_character);
+    assert_throw(strdec<base64>("A?AAA"), stlencoders::invalid_character);
+    assert_throw(strdec<base64>("AA?AA"), stlencoders::invalid_character);
+    assert_throw(strdec<base64>("AAA?A"), stlencoders::invalid_character);
+    assert_throw(strdec<base64>("AAAA?"), stlencoders::invalid_character);
+
+    // skip invalid character
+
+    assert(strdec<base64>("?AAAA", make_skip("?")) == std::string(3, '\x00'));
+    assert(strdec<base64>("A?AAA", make_skip("?")) == std::string(3, '\x00'));
+    assert(strdec<base64>("AA?AA", make_skip("?")) == std::string(3, '\x00'));
+    assert(strdec<base64>("AAA?A", make_skip("?")) == std::string(3, '\x00'));
+    assert(strdec<base64>("AAAA?", make_skip("?")) == std::string(3, '\x00'));
+
+    // skip padding character
+
+    assert(strdec<base64>("=AAAA", make_skip("=")) == std::string(3, '\x00'));
+    assert(strdec<base64>("A=AAA", make_skip("=")) == std::string(3, '\x00'));
+    assert(strdec<base64>("AA=AA", make_skip("=")) == std::string(3, '\x00'));
+    assert(strdec<base64>("AAA=A", make_skip("=")) == std::string(3, '\x00'));
+    assert(strdec<base64>("AAAA=", make_skip("=")) == std::string(3, '\x00'));
+
+    // skip no characters
+
+    assert_throw(strdec<base64>("?AAAA", make_skip("")), stlencoders::invalid_character);
+    assert_throw(strdec<base64>("A?AAA", make_skip("")), stlencoders::invalid_character);
+    assert_throw(strdec<base64>("AA?AA", make_skip("")), stlencoders::invalid_character);
+    assert_throw(strdec<base64>("AAA?A", make_skip("")), stlencoders::invalid_character);
+    assert_throw(strdec<base64>("AAAA?", make_skip("")), stlencoders::invalid_character);
 
     return EXIT_SUCCESS;
 }

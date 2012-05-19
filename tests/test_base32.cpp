@@ -142,6 +142,40 @@ int main()
     assert(strdec<base32hex>("CPNMUOJ1") == "fooba");
     assert(strdec<base32hex>("CPNMUOJ1E8") == "foobar");
 
+    // RFC 4648 test vectors - decoding predicate
+
+    assert(strdec<base32>("", make_skip("")) == "");
+    assert(strdec<base32>("MY======", make_skip("")) == "f");
+    assert(strdec<base32>("MZXQ====", make_skip("")) == "fo");
+    assert(strdec<base32>("MZXW6===", make_skip("")) == "foo");
+    assert(strdec<base32>("MZXW6YQ=", make_skip("")) == "foob");
+    assert(strdec<base32>("MZXW6YTB", make_skip("")) == "fooba");
+    assert(strdec<base32>("MZXW6YTBOI======", make_skip("")) == "foobar");
+
+    assert(strdec<wbase32>(L"", make_skip(L"")) == "");
+    assert(strdec<wbase32>(L"MY======", make_skip(L"")) == "f");
+    assert(strdec<wbase32>(L"MZXQ====", make_skip(L"")) == "fo");
+    assert(strdec<wbase32>(L"MZXW6===", make_skip(L"")) == "foo");
+    assert(strdec<wbase32>(L"MZXW6YQ=", make_skip(L"")) == "foob");
+    assert(strdec<wbase32>(L"MZXW6YTB", make_skip(L"")) == "fooba");
+    assert(strdec<wbase32>(L"MZXW6YTBOI======", make_skip(L"")) == "foobar");
+
+    assert(strdec<base32hex>("", make_skip("")) == "");
+    assert(strdec<base32hex>("CO======", make_skip("")) == "f");
+    assert(strdec<base32hex>("CPNG====", make_skip("")) == "fo");
+    assert(strdec<base32hex>("CPNMU===", make_skip("")) == "foo");
+    assert(strdec<base32hex>("CPNMUOG=", make_skip("")) == "foob");
+    assert(strdec<base32hex>("CPNMUOJ1", make_skip("")) == "fooba");
+    assert(strdec<base32hex>("CPNMUOJ1E8======", make_skip("")) == "foobar");
+
+    assert(strdec<wbase32hex>(L"", make_skip(L"")) == "");
+    assert(strdec<wbase32hex>(L"CO======", make_skip(L"")) == "f");
+    assert(strdec<wbase32hex>(L"CPNG====", make_skip(L"")) == "fo");
+    assert(strdec<wbase32hex>(L"CPNMU===", make_skip(L"")) == "foo");
+    assert(strdec<wbase32hex>(L"CPNMUOG=", make_skip(L"")) == "foob");
+    assert(strdec<wbase32hex>(L"CPNMUOJ1", make_skip(L"")) == "fooba");
+    assert(strdec<wbase32hex>(L"CPNMUOJ1E8======", make_skip(L"")) == "foobar");
+
     // test some special bit patterns
 
     assert(strenc<base32>(std::string(5, '\x00')) == "AAAAAAAA");
@@ -169,21 +203,60 @@ int main()
     assert_throw(strdec<base32>("A"), stlencoders::invalid_length);
     assert_throw(strdec<base32>("AAA"), stlencoders::invalid_length);
     assert_throw(strdec<base32>("AAAAAA"), stlencoders::invalid_length);
+    assert_throw(strdec<base32>("AAAAAAAAA"), stlencoders::invalid_length);
 
     assert_throw(strdec<base32>("A======="), stlencoders::invalid_length);
     assert_throw(strdec<base32>("AAA====="), stlencoders::invalid_length);
     assert_throw(strdec<base32>("AAAAAA=="), stlencoders::invalid_length);
+    assert_throw(strdec<base32>("AAAAAAAAA======="), stlencoders::invalid_length);
 
     // test invalid character
 
-    assert_throw(strdec<base32>("?AAAAAAA"), stlencoders::invalid_character);
-    assert_throw(strdec<base32>("A?AAAAAA"), stlencoders::invalid_character);
-    assert_throw(strdec<base32>("AA?AAAAA"), stlencoders::invalid_character);
-    assert_throw(strdec<base32>("AAA?AAAA"), stlencoders::invalid_character);
-    assert_throw(strdec<base32>("AAAA?AAA"), stlencoders::invalid_character);
-    assert_throw(strdec<base32>("AAAAA?AA"), stlencoders::invalid_character);
-    assert_throw(strdec<base32>("AAAAAA?A"), stlencoders::invalid_character);
-    assert_throw(strdec<base32>("AAAAAAA?"), stlencoders::invalid_character);
+    assert_throw(strdec<base32>("?AAAAAAAA"), stlencoders::invalid_character);
+    assert_throw(strdec<base32>("A?AAAAAAA"), stlencoders::invalid_character);
+    assert_throw(strdec<base32>("AA?AAAAAA"), stlencoders::invalid_character);
+    assert_throw(strdec<base32>("AAA?AAAAA"), stlencoders::invalid_character);
+    assert_throw(strdec<base32>("AAAA?AAAA"), stlencoders::invalid_character);
+    assert_throw(strdec<base32>("AAAAA?AAA"), stlencoders::invalid_character);
+    assert_throw(strdec<base32>("AAAAAA?AA"), stlencoders::invalid_character);
+    assert_throw(strdec<base32>("AAAAAAA?A"), stlencoders::invalid_character);
+    assert_throw(strdec<base32>("AAAAAAAA?"), stlencoders::invalid_character);
+
+    // skip invalid character
+
+    assert(strdec<base32>("?AAAAAAAA", make_skip("?")) == std::string(5, '\x00'));
+    assert(strdec<base32>("A?AAAAAAA", make_skip("?")) == std::string(5, '\x00'));
+    assert(strdec<base32>("AA?AAAAAA", make_skip("?")) == std::string(5, '\x00'));
+    assert(strdec<base32>("AAA?AAAAA", make_skip("?")) == std::string(5, '\x00'));
+    assert(strdec<base32>("AAAA?AAAA", make_skip("?")) == std::string(5, '\x00'));
+    assert(strdec<base32>("AAAAA?AAA", make_skip("?")) == std::string(5, '\x00'));
+    assert(strdec<base32>("AAAAAA?AA", make_skip("?")) == std::string(5, '\x00'));
+    assert(strdec<base32>("AAAAAAA?A", make_skip("?")) == std::string(5, '\x00'));
+    assert(strdec<base32>("AAAAAAAA?", make_skip("?")) == std::string(5, '\x00'));
+
+    // skip padding character
+
+    assert(strdec<base32>("=AAAAAAAA", make_skip("=")) == std::string(5, '\x00'));
+    assert(strdec<base32>("A=AAAAAAA", make_skip("=")) == std::string(5, '\x00'));
+    assert(strdec<base32>("AA=AAAAAA", make_skip("=")) == std::string(5, '\x00'));
+    assert(strdec<base32>("AAA=AAAAA", make_skip("=")) == std::string(5, '\x00'));
+    assert(strdec<base32>("AAAA=AAAA", make_skip("=")) == std::string(5, '\x00'));
+    assert(strdec<base32>("AAAAA=AAA", make_skip("=")) == std::string(5, '\x00'));
+    assert(strdec<base32>("AAAAAA=AA", make_skip("=")) == std::string(5, '\x00'));
+    assert(strdec<base32>("AAAAAAA=A", make_skip("=")) == std::string(5, '\x00'));
+    assert(strdec<base32>("AAAAAAAA=", make_skip("=")) == std::string(5, '\x00'));
+
+    // skip no characters
+
+    assert_throw(strdec<base32>("?AAAAAAAA", make_skip("")), stlencoders::invalid_character);
+    assert_throw(strdec<base32>("A?AAAAAAA", make_skip("")), stlencoders::invalid_character);
+    assert_throw(strdec<base32>("AA?AAAAAA", make_skip("")), stlencoders::invalid_character);
+    assert_throw(strdec<base32>("AAA?AAAAA", make_skip("")), stlencoders::invalid_character);
+    assert_throw(strdec<base32>("AAAA?AAAA", make_skip("")), stlencoders::invalid_character);
+    assert_throw(strdec<base32>("AAAAA?AAA", make_skip("")), stlencoders::invalid_character);
+    assert_throw(strdec<base32>("AAAAAA?AA", make_skip("")), stlencoders::invalid_character);
+    assert_throw(strdec<base32>("AAAAAAA?A", make_skip("")), stlencoders::invalid_character);
+    assert_throw(strdec<base32>("AAAAAAAA?", make_skip("")), stlencoders::invalid_character);
 
     return EXIT_SUCCESS;
 }

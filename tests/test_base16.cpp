@@ -73,6 +73,24 @@ int main()
     assert(strdec<wbase16>(L"666F6F6261") == "fooba");
     assert(strdec<wbase16>(L"666F6F626172") == "foobar");
 
+    // RFC 4648 test vectors - decoding predicate
+
+    assert(strdec<base16>("", make_skip("")) == "");
+    assert(strdec<base16>("66", make_skip("")) == "f");
+    assert(strdec<base16>("666F", make_skip("")) == "fo");
+    assert(strdec<base16>("666F6F", make_skip("")) == "foo");
+    assert(strdec<base16>("666F6F62", make_skip("")) == "foob");
+    assert(strdec<base16>("666F6F6261", make_skip("")) == "fooba");
+    assert(strdec<base16>("666F6F626172", make_skip("")) == "foobar");
+
+    assert(strdec<wbase16>(L"", make_skip(L"")) == "");
+    assert(strdec<wbase16>(L"66", make_skip(L"")) == "f");
+    assert(strdec<wbase16>(L"666F", make_skip(L"")) == "fo");
+    assert(strdec<wbase16>(L"666F6F", make_skip(L"")) == "foo");
+    assert(strdec<wbase16>(L"666F6F62", make_skip(L"")) == "foob");
+    assert(strdec<wbase16>(L"666F6F6261", make_skip(L"")) == "fooba");
+    assert(strdec<wbase16>(L"666F6F626172", make_skip(L"")) == "foobar");
+
     // test some special bit patterns
 
     assert(strenc<base16>(std::string(1, '\x00')) == "00");
@@ -95,12 +113,26 @@ int main()
 
     // test invalid length
 
-    assert_throw(strdec<base16>("A"), stlencoders::invalid_length);
+    assert_throw(strdec<base16>("0"), stlencoders::invalid_length);
+    assert_throw(strdec<base16>("000"), stlencoders::invalid_length);
 
     // test invalid character
 
-    assert_throw(strdec<base16>("?A"), stlencoders::invalid_character);
-    assert_throw(strdec<base16>("A?"), stlencoders::invalid_character);
+    assert_throw(strdec<base16>("?00"), stlencoders::invalid_character);
+    assert_throw(strdec<base16>("0?0"), stlencoders::invalid_character);
+    assert_throw(strdec<base16>("0?0"), stlencoders::invalid_character);
+
+    // skip invalid character
+
+    assert(strdec<base16>("?00", make_skip("?")) == std::string(1, '\x00'));
+    assert(strdec<base16>("0?0", make_skip("?")) == std::string(1, '\x00'));
+    assert(strdec<base16>("00?", make_skip("?")) == std::string(1, '\x00'));
+
+    // skip no characters
+
+    assert_throw(strdec<base16>("?00", make_skip("")), stlencoders::invalid_character);
+    assert_throw(strdec<base16>("0?0", make_skip("")), stlencoders::invalid_character);
+    assert_throw(strdec<base16>("00?", make_skip("")), stlencoders::invalid_character);
 
     return EXIT_SUCCESS;
 }

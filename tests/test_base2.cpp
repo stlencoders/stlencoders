@@ -49,6 +49,8 @@ int main()
     assert(strdec<base2>("0110011001101111") == "fo");
     assert(strdec<base2>("011001100110111101101111") == "foo");
 
+    // adapted RFC 4648 test vectors - wide characters
+
     assert(strenc<wbase2>("") == L"");
     assert(strenc<wbase2>("f") == L"01100110");
     assert(strenc<wbase2>("fo") == L"0110011001101111");
@@ -58,6 +60,18 @@ int main()
     assert(strdec<wbase2>(L"01100110") == "f");
     assert(strdec<wbase2>(L"0110011001101111") == "fo");
     assert(strdec<wbase2>(L"011001100110111101101111") == "foo");
+
+    // adapted RFC 4648 test vectors - decoding predicate
+
+    assert(strdec<base2>("", make_skip("")) == "");
+    assert(strdec<base2>("01100110", make_skip("")) == "f");
+    assert(strdec<base2>("0110011001101111", make_skip("")) == "fo");
+    assert(strdec<base2>("011001100110111101101111", make_skip("")) == "foo");
+
+    assert(strdec<wbase2>(L"", make_skip(L"")) == "");
+    assert(strdec<wbase2>(L"01100110", make_skip(L"")) == "f");
+    assert(strdec<wbase2>(L"0110011001101111", make_skip(L"")) == "fo");
+    assert(strdec<wbase2>(L"011001100110111101101111", make_skip(L"")) == "foo");
 
     // test some special bit patterns
 
@@ -88,17 +102,43 @@ int main()
     assert_throw(strdec<base2>("00000"), stlencoders::invalid_length);
     assert_throw(strdec<base2>("000000"), stlencoders::invalid_length);
     assert_throw(strdec<base2>("0000000"), stlencoders::invalid_length);
+    assert_throw(strdec<base2>("000000000"), stlencoders::invalid_length);
 
     // test invalid character
 
-    assert_throw(strdec<base2>("?0000000"), stlencoders::invalid_character);
-    assert_throw(strdec<base2>("0?000000"), stlencoders::invalid_character);
-    assert_throw(strdec<base2>("00?00000"), stlencoders::invalid_character);
-    assert_throw(strdec<base2>("000?0000"), stlencoders::invalid_character);
-    assert_throw(strdec<base2>("0000?000"), stlencoders::invalid_character);
-    assert_throw(strdec<base2>("00000?00"), stlencoders::invalid_character);
-    assert_throw(strdec<base2>("000000?0"), stlencoders::invalid_character);
-    assert_throw(strdec<base2>("0000000?"), stlencoders::invalid_character);
+    assert_throw(strdec<base2>("?00000000"), stlencoders::invalid_character);
+    assert_throw(strdec<base2>("0?0000000"), stlencoders::invalid_character);
+    assert_throw(strdec<base2>("00?000000"), stlencoders::invalid_character);
+    assert_throw(strdec<base2>("000?00000"), stlencoders::invalid_character);
+    assert_throw(strdec<base2>("0000?0000"), stlencoders::invalid_character);
+    assert_throw(strdec<base2>("00000?000"), stlencoders::invalid_character);
+    assert_throw(strdec<base2>("000000?00"), stlencoders::invalid_character);
+    assert_throw(strdec<base2>("0000000?0"), stlencoders::invalid_character);
+    assert_throw(strdec<base2>("00000000?"), stlencoders::invalid_character);
+
+    // skip invalid character
+
+    assert(strdec<base2>("?00000000", make_skip("?")) == std::string(1, '\x00'));
+    assert(strdec<base2>("0?0000000", make_skip("?")) == std::string(1, '\x00'));
+    assert(strdec<base2>("00?000000", make_skip("?")) == std::string(1, '\x00'));
+    assert(strdec<base2>("000?00000", make_skip("?")) == std::string(1, '\x00'));
+    assert(strdec<base2>("0000?0000", make_skip("?")) == std::string(1, '\x00'));
+    assert(strdec<base2>("00000?000", make_skip("?")) == std::string(1, '\x00'));
+    assert(strdec<base2>("000000?00", make_skip("?")) == std::string(1, '\x00'));
+    assert(strdec<base2>("0000000?0", make_skip("?")) == std::string(1, '\x00'));
+    assert(strdec<base2>("00000000?", make_skip("?")) == std::string(1, '\x00'));
+
+    // skip no characters
+
+    assert_throw(strdec<base2>("?00000000", make_skip("")), stlencoders::invalid_character);
+    assert_throw(strdec<base2>("0?0000000", make_skip("")), stlencoders::invalid_character);
+    assert_throw(strdec<base2>("00?000000", make_skip("")), stlencoders::invalid_character);
+    assert_throw(strdec<base2>("000?00000", make_skip("")), stlencoders::invalid_character);
+    assert_throw(strdec<base2>("0000?0000", make_skip("")), stlencoders::invalid_character);
+    assert_throw(strdec<base2>("00000?000", make_skip("")), stlencoders::invalid_character);
+    assert_throw(strdec<base2>("000000?00", make_skip("")), stlencoders::invalid_character);
+    assert_throw(strdec<base2>("0000000?0", make_skip("")), stlencoders::invalid_character);
+    assert_throw(strdec<base2>("00000000?", make_skip("")), stlencoders::invalid_character);
 
     return EXIT_SUCCESS;
 }

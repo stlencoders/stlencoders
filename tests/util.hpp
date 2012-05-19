@@ -33,16 +33,11 @@
 #include <string>
 
 namespace {
-    template<bool F>
-    struct predicate {
-        template<class T> bool operator()(const T&) { return F; }
-    };
-
     template<class C>
     std::basic_string<typename C::char_type> strenc(const std::string& src)
     {
         typedef typename C::char_type char_type;
-        typedef typename std::basic_string<char_type> string_type;
+        typedef std::basic_string<char_type> string_type;
         typedef typename string_type::iterator iterator_type;
 
         string_type dst(C::max_encode_size(src.size()), '\0');
@@ -56,7 +51,7 @@ namespace {
     std::basic_string<typename C::char_type> strenc(const std::string& src, bool pad)
     {
         typedef typename C::char_type char_type;
-        typedef typename std::basic_string<char_type> string_type;
+        typedef std::basic_string<char_type> string_type;
         typedef typename string_type::iterator iterator_type;
 
         string_type dst(C::max_encode_size(src.size()), '\0');
@@ -69,14 +64,50 @@ namespace {
     template<class C>
     std::string strdec(const std::basic_string<typename C::char_type>& src)
     {
-        typedef typename std::string string_type;
-        typedef typename std::string::iterator iterator_type;
+        typedef std::string string_type;
+        typedef std::string::iterator iterator_type;
 
         string_type dst(C::max_decode_size(src.size()), '\0');
         iterator_type end = C::decode(src.begin(), src.end(), dst.begin());
         assert(end - dst.begin() <= dst.end() - dst.begin());
         dst.resize(end - dst.begin());
         return dst;
+    }
+
+    template<class C, class Predicate>
+    std::string strdec(const std::basic_string<typename C::char_type>& src, Predicate pred)
+    {
+        typedef std::string string_type;
+        typedef std::string::iterator iterator_type;
+
+        string_type dst(C::max_decode_size(src.size()), '\0');
+        iterator_type end = C::decode(src.begin(), src.end(), dst.begin(), pred);
+        assert(end - dst.begin() <= dst.end() - dst.begin());
+        dst.resize(end - dst.begin());
+        return dst;
+    }
+
+    template<class charT>
+    class skip {
+    public:
+        typedef charT char_type;
+        typedef std::basic_string<charT> string_type;
+
+    public:
+        skip(const charT* s) : skipped(s) { }
+
+        bool operator()(const charT& c) {
+            return skipped.find(c) != string_type::npos;
+        }
+
+    private:
+        string_type skipped;
+    };
+
+    template<class charT>
+    inline skip<charT> make_skip(const charT* s)
+    {
+        return skip<charT>(s);
     }
 }
 
