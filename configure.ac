@@ -29,13 +29,17 @@ AX_CXX_HEADER_STDCXX_TR1
 # check for system headers used by example programs
 AC_CHECK_HEADERS([getopt.h unistd.h])
 
-# check for stringencoders used by stlbench
+# check for stringencoders (used by stlbench)
 AC_CHECK_HEADERS([modp_b2.h modp_b16.h modp_b64.h modp_b64w.h])
 AC_CHECK_LIB([modpbase64], [main], [stlbench_LDADD="-lmodpbase64 $stlbench_LDADD"])
 
-# check for apr-util used by stlbench
+# check for apr-util (used by stlbench)
 AC_CHECK_HEADERS([apr-1/apr_base64.h])
 AC_CHECK_LIB([aprutil-1], [apr_base64_encode], [stlbench_LDADD="-laprutil-1 $stlbench_LDADD"])
+
+# check for boost (used by stlbench)
+AC_CHECK_HEADERS([boost/archive/iterators/base64_from_binary.hpp])
+AC_CHECK_HEADERS([boost/archive/iterators/binary_from_base64.hpp])
 
 # additional libs for stlbench
 AC_SUBST([stlbench_LDADD])

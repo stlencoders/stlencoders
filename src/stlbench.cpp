@@ -63,6 +63,12 @@
 # include <apr-1/apr_base64.h>
 #endif
 
+#ifdef HAVE_BOOST_ARCHIVE_ITERATORS_BASE64_FROM_BINARY_HPP
+# include <boost/archive/iterators/base64_from_binary.hpp>
+# include <boost/archive/iterators/binary_from_base64.hpp>
+# include <boost/archive/iterators/transform_width.hpp>
+#endif
+
 #if defined(HAVE_GETOPT_H)
 # include <getopt.h>
 #elif defined(HAVE_UNISTD_H)
@@ -207,6 +213,57 @@ namespace {
     };
 #endif
 
+#ifdef HAVE_BOOST_ARCHIVE_ITERATORS_BASE64_FROM_BINARY_HPP
+    template<class charT>
+    struct boost_base64 {
+        typedef charT char_type;
+
+        typedef unsigned char int_type;
+
+    	template<class InputIterator, class OutputIterator>
+        static OutputIterator encode(
+            InputIterator first, InputIterator last, OutputIterator result
+            )
+        {
+            using namespace boost::archive::iterators;
+
+            typedef base64_from_binary<
+                transform_width<InputIterator, 6, 8>,
+                char_type> enc;
+
+            // only encode multiples of three bytes
+            last -= (last - first) % 3;
+
+            return std::copy(enc(first), enc(last), result);
+        }
+
+    	template<class InputIterator, class OutputIterator>
+        static OutputIterator decode(
+            InputIterator first, InputIterator last, OutputIterator result
+            )
+        {
+            using namespace boost::archive::iterators;
+
+            typedef transform_width<
+                binary_from_base64<InputIterator, char_type>,
+                8, 6> dec;
+
+            // only decode multiples of four characters
+            last -= (last - first) % 4;
+
+            return std::copy(dec(first), dec(last), result);
+        }
+
+        static std::size_t max_encode_size(std::size_t n) {
+            return stlencoders::base64<char_type>::max_encode_size(n);
+        }
+
+        static std::size_t max_decode_size(std::size_t n) {
+            return stlencoders::base64<char_type>::max_decode_size(n);
+        }
+    };
+#endif
+
     std::string fmtclock(double t, int prec = 2)
     {
         static const double clk_tck = CLOCKS_PER_SEC;
@@ -233,7 +290,7 @@ const std::size_t samples[] = { 16, 256, 4096, 65536, 1048576, 0 };
 
 const int maxsize = 1048576;
 
-const int headlen = 25;
+const int headlen = 29;
 const int timelen = 10;
 
 struct chargen {
@@ -275,11 +332,12 @@ std::clock_t time_decode(
 }
 
 template<class Codec>
-void run(std::ostream& os, const char* prefix, unsigned long minruns)
+void run(const std::string& encname, const std::string& decname,
+         std::ostream& os, unsigned long minruns)
 {
     typedef typename Codec::char_type char_type;
 
-    os << std::setw(headlen - 8) << prefix << "encode: " << std::flush;
+    os << std::setw(headlen - 2) << encname << ": " << std::flush;
     for (const std::size_t* psize = samples; *psize; ++psize) {
         std::size_t n = *psize;
         unsigned long nruns = minruns * maxsize / n;
@@ -294,7 +352,7 @@ void run(std::ostream& os, const char* prefix, unsigned long minruns)
     }
     os << std::endl;
 
-    os << std::setw(headlen - 8) << prefix << "decode: " << std::flush;
+    os << std::setw(headlen - 2) << decname << ": " << std::flush;
     for (const std::size_t* psize = samples; *psize; ++psize) {
         std::size_t n = *psize;
         unsigned long nruns = minruns * maxsize / n;
@@ -311,6 +369,12 @@ void run(std::ostream& os, const char* prefix, unsigned long minruns)
         os << std::setw(timelen) << fmtclock(double(t) / nruns) << std::flush;
     }
     os << std::endl;
+}
+
+template<class Codec>
+void run(std::ostream& os, const std::string& prefix, unsigned long minruns)
+{
+    run<Codec>(prefix + "encode", prefix + "decode", os, minruns);
 }
 
 void header(std::ostream& os, const char* s)
@@ -481,6 +545,22 @@ int main(int argc, char* argv[])
 #ifdef HAVE_APR_1_APR_BASE64_H
         if (std::find(args.begin(), args.end(), "base64") != args.end()) {
             run<apr_base64>(std::cout, "apr_base64_", nruns);
+        }
+#endif
+
+#ifdef HAVE_BOOST_ARCHIVE_ITERATORS_BASE64_FROM_BINARY_HPP
+        if (std::find(args.begin(), args.end(), "base64") != args.end()) {
+            run<boost_base64<char> >(
+                "base64_from_binary<char>", "binary_from_base64<char>",
+                std::cout, nruns
+                );
+        }
+
+        if (wchar && std::find(args.begin(), args.end(), "base64") != args.end()) {
+            run<boost_base64<wchar_t> >(
+                "base64_from_binary<wchar_t>", "binary_from_base64<wchar_t>",
+                std::cout, nruns
+                );
         }
 #endif
     }
