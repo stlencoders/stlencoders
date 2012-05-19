@@ -136,12 +136,12 @@ int main()
     assert_throw(strdec<base16>("00?", make_skip("")), stlencoders::invalid_character);
 
     // test base16 upper/lower variants
-    for (int i = 0; i != 16; ++i) {
+    for (base16::int_type i = 0; i != 16; ++i) {
         typedef base16::traits_type traits;
 
-        char c = traits::to_char_type(i);
-        char uc = traits::to_char_type_upper(i);
-        char lc = traits::to_char_type_lower(i);
+        traits::char_type c = traits::to_char_type(i);
+        traits::char_type uc = traits::to_char_type_upper(i);
+        traits::char_type lc = traits::to_char_type_lower(i);
 
         assert(traits::eq(uc, std::toupper(c, std::locale::classic())));
         assert(traits::eq(lc, std::tolower(c, std::locale::classic())));

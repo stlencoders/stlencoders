@@ -260,12 +260,12 @@ int main()
     assert_throw(strdec<base32>("AAAAAAAA?", make_skip("")), stlencoders::invalid_character);
 
     // test base32 upper/lower variants
-    for (int i = 0; i != 32; ++i) {
+    for (base32::int_type i = 0; i != 32; ++i) {
         typedef base32::traits_type traits;
 
-        char c = traits::to_char_type(i);
-        char uc = traits::to_char_type_upper(i);
-        char lc = traits::to_char_type_lower(i);
+        traits::char_type c = traits::to_char_type(i);
+        traits::char_type uc = traits::to_char_type_upper(i);
+        traits::char_type lc = traits::to_char_type_lower(i);
 
         assert(traits::eq(uc, std::toupper(c, std::locale::classic())));
         assert(traits::eq(lc, std::tolower(c, std::locale::classic())));
@@ -273,12 +273,12 @@ int main()
     }
 
     // test base32hex upper/lower variants
-    for (int i = 0; i != 32; ++i) {
+    for (base32hex::int_type i = 0; i != 32; ++i) {
         typedef base32hex::traits_type traits;
 
-        char c = traits::to_char_type(i);
-        char uc = traits::to_char_type_upper(i);
-        char lc = traits::to_char_type_lower(i);
+        traits::char_type c = traits::to_char_type(i);
+        traits::char_type uc = traits::to_char_type_upper(i);
+        traits::char_type lc = traits::to_char_type_lower(i);
 
         assert(traits::eq(uc, std::toupper(c, std::locale::classic())));
         assert(traits::eq(lc, std::tolower(c, std::locale::classic())));
