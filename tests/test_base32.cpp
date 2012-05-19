@@ -164,7 +164,17 @@ int main()
     assert(strenc<wbase32hex>(std::string(5, '\xff')) == L"VVVVVVVV");
     assert(strdec<wbase32hex>(L"VVVVVVVV") == std::string(5, '\xff'));
 
-    // error handling
+    // test invalid length
+
+    assert_throw(strdec<base32>("A"), stlencoders::invalid_length);
+    assert_throw(strdec<base32>("AAA"), stlencoders::invalid_length);
+    assert_throw(strdec<base32>("AAAAAA"), stlencoders::invalid_length);
+
+    assert_throw(strdec<base32>("A======="), stlencoders::invalid_length);
+    assert_throw(strdec<base32>("AAA====="), stlencoders::invalid_length);
+    assert_throw(strdec<base32>("AAAAAA=="), stlencoders::invalid_length);
+
+    // test invalid character
 
     assert_throw(strdec<base32>("?AAAAAAA"), stlencoders::invalid_character);
     assert_throw(strdec<base32>("A?AAAAAA"), stlencoders::invalid_character);
@@ -174,14 +184,6 @@ int main()
     assert_throw(strdec<base32>("AAAAA?AA"), stlencoders::invalid_character);
     assert_throw(strdec<base32>("AAAAAA?A"), stlencoders::invalid_character);
     assert_throw(strdec<base32>("AAAAAAA?"), stlencoders::invalid_character);
-
-    assert_throw(strdec<base32>("A======="), stlencoders::invalid_length);
-    assert_throw(strdec<base32>("AAA====="), stlencoders::invalid_length);
-    assert_throw(strdec<base32>("AAAAAA=="), stlencoders::invalid_length);
-
-    assert_throw(strdec<base32>("A"), stlencoders::invalid_length);
-    assert_throw(strdec<base32>("AAA"), stlencoders::invalid_length);
-    assert_throw(strdec<base32>("AAAAAA"), stlencoders::invalid_length);
 
     return EXIT_SUCCESS;
 }

@@ -37,6 +37,8 @@ int main()
     typedef stlencoders::base2<char> base2;
     typedef stlencoders::base2<wchar_t> wbase2;
 
+    // adapted RFC 4648 test vectors
+
     assert(strenc<base2>("") == "");
     assert(strenc<base2>("f") == "01100110");
     assert(strenc<base2>("fo") == "0110011001101111");
@@ -77,7 +79,17 @@ int main()
     assert(strenc<wbase2>(std::string(1, '\xff')) == L"11111111");
     assert(strdec<wbase2>(L"11111111") == std::string(1, '\xff'));
 
-    // error handling
+    // test invalid length
+
+    assert_throw(strdec<base2>("0"), stlencoders::invalid_length);
+    assert_throw(strdec<base2>("00"), stlencoders::invalid_length);
+    assert_throw(strdec<base2>("000"), stlencoders::invalid_length);
+    assert_throw(strdec<base2>("0000"), stlencoders::invalid_length);
+    assert_throw(strdec<base2>("00000"), stlencoders::invalid_length);
+    assert_throw(strdec<base2>("000000"), stlencoders::invalid_length);
+    assert_throw(strdec<base2>("0000000"), stlencoders::invalid_length);
+
+    // test invalid character
 
     assert_throw(strdec<base2>("?0000000"), stlencoders::invalid_character);
     assert_throw(strdec<base2>("0?000000"), stlencoders::invalid_character);
@@ -87,14 +99,6 @@ int main()
     assert_throw(strdec<base2>("00000?00"), stlencoders::invalid_character);
     assert_throw(strdec<base2>("000000?0"), stlencoders::invalid_character);
     assert_throw(strdec<base2>("0000000?"), stlencoders::invalid_character);
-
-    assert_throw(strdec<base2>("0"), stlencoders::invalid_length);
-    assert_throw(strdec<base2>("00"), stlencoders::invalid_length);
-    assert_throw(strdec<base2>("000"), stlencoders::invalid_length);
-    assert_throw(strdec<base2>("0000"), stlencoders::invalid_length);
-    assert_throw(strdec<base2>("00000"), stlencoders::invalid_length);
-    assert_throw(strdec<base2>("000000"), stlencoders::invalid_length);
-    assert_throw(strdec<base2>("0000000"), stlencoders::invalid_length);
 
     return EXIT_SUCCESS;
 }

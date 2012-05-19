@@ -150,15 +150,17 @@ int main()
     assert(strenc<wbase64url>(std::string(3, '\xff')) == L"____");
     assert(strdec<wbase64url>(L"____") == std::string(3, '\xff'));
 
-    // error handling
+    // test invalid length
+
+    assert_throw(strdec<base64>("A"), stlencoders::invalid_length);
+    assert_throw(strdec<base64>("A==="), stlencoders::invalid_length);
+
+    // test invalid character
 
     assert_throw(strdec<base64>("?AAA"), stlencoders::invalid_character);
     assert_throw(strdec<base64>("A?AA"), stlencoders::invalid_character);
     assert_throw(strdec<base64>("AA?A"), stlencoders::invalid_character);
     assert_throw(strdec<base64>("AAA?"), stlencoders::invalid_character);
-
-    assert_throw(strdec<base64>("A==="), stlencoders::invalid_length);
-    assert_throw(strdec<base64>("A"), stlencoders::invalid_length);
 
     return EXIT_SUCCESS;
 }

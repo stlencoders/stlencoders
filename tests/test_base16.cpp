@@ -93,12 +93,14 @@ int main()
     assert(strenc<wbase16>(std::string(1, '\xff')) == L"FF");
     assert(strdec<wbase16>(L"FF") == std::string(1, '\xff'));
 
-    // error handling
+    // test invalid length
+
+    assert_throw(strdec<base16>("A"), stlencoders::invalid_length);
+
+    // test invalid character
 
     assert_throw(strdec<base16>("?A"), stlencoders::invalid_character);
     assert_throw(strdec<base16>("A?"), stlencoders::invalid_character);
-
-    assert_throw(strdec<base16>("A"), stlencoders::invalid_length);
 
     return EXIT_SUCCESS;
 }
