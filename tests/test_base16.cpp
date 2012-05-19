@@ -28,6 +28,7 @@
 
 #include <cassert>
 #include <cstdlib>
+#include <locale>
 #include <string>
 
 #include "util.hpp"
@@ -133,6 +134,19 @@ int main()
     assert_throw(strdec<base16>("?00", make_skip("")), stlencoders::invalid_character);
     assert_throw(strdec<base16>("0?0", make_skip("")), stlencoders::invalid_character);
     assert_throw(strdec<base16>("00?", make_skip("")), stlencoders::invalid_character);
+
+    // test base16 upper/lower variants
+    for (int i = 0; i != 16; ++i) {
+        typedef base16::traits_type traits;
+
+        char c = traits::to_char_type(i);
+        char uc = traits::to_char_type_upper(i);
+        char lc = traits::to_char_type_lower(i);
+
+        assert(traits::eq(uc, std::toupper(c, std::locale::classic())));
+        assert(traits::eq(lc, std::tolower(c, std::locale::classic())));
+        assert(traits::eq_int_type(traits::to_int_type(lc), traits::to_int_type(uc)));
+    }
 
     return EXIT_SUCCESS;
 }
