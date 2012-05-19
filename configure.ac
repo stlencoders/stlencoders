@@ -41,7 +41,7 @@ AC_CHECK_LIB([aprutil-1], [apr_base64_encode], [stlbench_LDADD="-laprutil-1 $stl
 AC_SUBST([stlbench_LDADD])
 
 # automake
-AM_INIT_AUTOMAKE([-Wall -Werror foreign])
+AM_INIT_AUTOMAKE([-Wall -Werror])
 
 # done
 AC_OUTPUT
