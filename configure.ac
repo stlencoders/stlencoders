@@ -1,11 +1,10 @@
 # Process this file with autoconf to produce a configure script.
 
-AC_PREREQ([2.67])
+AC_PREREQ([2.61])
 
 AC_INIT([stlencoders], [1.0.0], [tkemmer@computer.org])
 AC_CONFIG_SRCDIR([config.h.in])
 AC_CONFIG_HEADERS([config.h])
-AC_CONFIG_MACRO_DIR([m4])
 
 AC_CONFIG_FILES([
         Doxyfile
@@ -22,9 +21,6 @@ AC_PROG_CXX
 AC_PROG_INSTALL
 
 AC_CHECK_PROGS([DOXYGEN], [doxygen])
-
-# check for ISO C++ library coverage
-AX_CXX_HEADER_STDCXX_TR1
 
 # check for system headers used by example programs
 AC_CHECK_HEADERS([getopt.h unistd.h])

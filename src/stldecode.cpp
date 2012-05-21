@@ -36,14 +36,9 @@
 #include <cstdlib>
 #include <cstring>
 #include <fstream>
-#include <functional>
 #include <iostream>
 #include <locale>
 #include <string>
-
-#ifdef STDCXX_TR1_HEADERS
-# include <tr1/functional>
-#endif
 
 #if defined(HAVE_GETOPT_H)
 # include <getopt.h>
@@ -56,6 +51,17 @@
 template<bool F>
 struct predicate {
     template<class T> bool operator()(const T&) { return F; }
+};
+
+class skipws {
+public:
+  template<class charT>
+  bool operator()(const charT& c) {
+    return std::isspace(c, loc);
+  }
+
+private:
+  std::locale loc;
 };
 
 template<class Codec, class OutputIterator, class Predicate>
@@ -163,15 +169,7 @@ int main(int argc, char* argv[])
         } else if (skipall) {
             decode(codec, filename, out, predicate<true>());
         } else {
-#ifdef STDCXX_TR1_HEADERS
-            using namespace std::tr1::placeholders;
-            decode(codec, filename, out,
-                   std::tr1::bind(std::isspace<char>, _1, std::locale()));
-#else
-            decode(codec, filename, out,
-                   std::bind2nd(std::ptr_fun(std::isspace<char>), std::locale()));
-
-#endif
+	  decode(codec, filename, out, skipws());
         }
     } catch (std::exception& e) {
         std::cerr << argv[0] << ": " << filename << ": " << e.what() << '\n';
