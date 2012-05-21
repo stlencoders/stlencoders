@@ -1,3 +1,3 @@
 #!/bin/sh
 
-autoreconf --verbose --install "$@"
+autoreconf --verbose --force --install "$@"
