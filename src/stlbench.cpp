@@ -28,6 +28,7 @@
 #include <stlencoders/base16.hpp>
 #include <stlencoders/base32.hpp>
 #include <stlencoders/base64.hpp>
+#include <stlencoders/error.hpp>
 
 #include <algorithm>
 #include <cassert>
@@ -77,195 +78,308 @@
 # include "getopt.hpp"
 #endif
 
-namespace {
-    struct base {
-        typedef char char_type;
-
-        typedef unsigned char int_type;
-    };
-
 #ifdef HAVE_MODP_B2_H
-    struct modp_b2 : public base {
-        static char_type* encode(const int_type* first, const int_type* last,
-                                 char_type* result)
-        {
-            const char* src = reinterpret_cast<const char*>(first);
-            return result + modp_b2_encode(result, src, last - first);
-        }
+struct modp_b2 {
+    typedef char char_type;
 
-        static int_type* decode(const char_type* first, const char_type* last,
-                                int_type* result)
-        {
-            char* dst = reinterpret_cast<char*>(result);
-            return result + modp_b2_decode(dst, first, last - first);
-        }
+    typedef char int_type;
 
-        static std::size_t max_encode_size(std::size_t n) {
-            return modp_b2_encode_len(n);
-        }
+    static char_type* encode(const int_type* first, const int_type* last, char_type* result)
+    {
+        return result + modp_b2_encode(result, first, last - first);
+    }
 
-        static std::size_t max_decode_size(std::size_t n) {
-            return modp_b2_decode_len(n);
+    static int_type* decode(const char_type* first, const char_type* last, int_type* result)
+    {
+        int n = modp_b2_decode(result, first, last - first);
+
+        if (n < 0) {
+            throw stlencoders::decode_error("modp_b2 error");
+        } else {
+            return result + n;
         }
-    };
+    }
+
+    static std::size_t max_encode_size(std::size_t n) {
+        return modp_b2_encode_len(n);
+    }
+
+    static std::size_t max_decode_size(std::size_t n) {
+        return modp_b2_decode_len(n);
+    }
+};
 #endif
 
 #ifdef HAVE_MODP_B16_H
-    struct modp_b16 : public base {
-        static char_type* encode(const int_type* first, const int_type* last,
-                                 char_type* result)
-        {
-            const char* src = reinterpret_cast<const char*>(first);
-            return result + modp_b16_encode(result, src, last - first);
-        }
+struct modp_b16 {
+    typedef char char_type;
 
-        static int_type* decode(const char_type* first, const char_type* last,
-                                int_type* result)
-        {
-            char* dst = reinterpret_cast<char*>(result);
-            return result + modp_b16_decode(dst, first, last - first);
-        }
+    typedef char int_type;
 
-        static std::size_t max_encode_size(std::size_t n) {
-            return modp_b16_encode_len(n);
-        }
+    static char_type* encode(const int_type* first, const int_type* last, char_type* result)
+    {
+        return result + modp_b16_encode(result, first, last - first);
+    }
 
-        static std::size_t max_decode_size(std::size_t n) {
-            return modp_b16_decode_len(n);
+    static int_type* decode(const char_type* first, const char_type* last, int_type* result)
+    {
+        int n = modp_b16_decode(result, first, last - first);
+
+        if (n < 0) {
+            throw stlencoders::decode_error("modp_b16 error");
+        } else {
+            return result + n;
         }
-    };
+    }
+
+    static std::size_t max_encode_size(std::size_t n) {
+        return modp_b16_encode_len(n);
+    }
+
+    static std::size_t max_decode_size(std::size_t n) {
+        return modp_b16_decode_len(n);
+    }
+};
 #endif
 
 #ifdef HAVE_MODP_B64_H
-    struct modp_b64 : public base {
-        static char_type* encode(const int_type* first, const int_type* last,
-                                 char_type* result)
-        {
-            const char* src = reinterpret_cast<const char*>(first);
-            return result + modp_b64_encode(result, src, last - first);
-        }
+struct modp_b64 {
+    typedef char char_type;
 
-        static int_type* decode(const char_type* first, const char_type* last,
-                                int_type* result)
-        {
-            char* dst = reinterpret_cast<char*>(result);
-            return result + modp_b64_decode(dst, first, last - first);
-        }
+    typedef char int_type;
 
-        static std::size_t max_encode_size(std::size_t n) {
-            return modp_b64_encode_len(n);
-        }
+    static char_type* encode(const int_type* first, const int_type* last, char_type* result)
+    {
+        return result + modp_b64_encode(result, first, last - first);
+    }
 
-        static std::size_t max_decode_size(std::size_t n) {
-            return modp_b64_decode_len(n);
+    static int_type* decode(const char_type* first, const char_type* last, int_type* result)
+    {
+        int n = modp_b64_decode(result, first, last - first);
+
+        if (n < 0) {
+            throw stlencoders::decode_error("modp_b64 error");
+        } else {
+            return result + n;
         }
-    };
+    }
+
+    static std::size_t max_encode_size(std::size_t n) {
+        return modp_b64_encode_len(n);
+    }
+
+    static std::size_t max_decode_size(std::size_t n) {
+        return modp_b64_decode_len(n);
+    }
+};
 #endif
 
 #ifdef HAVE_MODP_B64W_H
-    struct modp_b64w : public base {
-        static char_type* encode(const int_type* first, const int_type* last,
-                                 char_type* result)
-        {
-            const char* src = reinterpret_cast<const char*>(first);
-            return result + modp_b64w_encode(result, src, last - first);
-        }
+struct modp_b64w {
+    typedef char char_type;
 
-        static int_type* decode(const char_type* first, const char_type* last,
-                                int_type* result)
-        {
-            char* dst = reinterpret_cast<char*>(result);
-            return result + modp_b64w_decode(dst, first, last - first);
-        }
+    typedef char int_type;
 
-        static std::size_t max_encode_size(std::size_t n) {
-            return modp_b64w_encode_len(n);
-        }
+    static char_type* encode(const int_type* first, const int_type* last, char_type* result)
+    {
+        return result + modp_b64w_encode(result, first, last - first);
+    }
 
-        static std::size_t max_decode_size(std::size_t n) {
-            return modp_b64w_decode_len(n);
+    static int_type* decode(const char_type* first, const char_type* last, int_type* result)
+    {
+        int n = modp_b64w_decode(result, first, last - first);
+
+        if (n < 0) {
+            throw stlencoders::decode_error("modp_b64w error");
+        } else {
+            return result + n;
         }
-    };
+    }
+
+    static std::size_t max_encode_size(std::size_t n) {
+        return modp_b64w_encode_len(n);
+    }
+
+    static std::size_t max_decode_size(std::size_t n) {
+        return modp_b64w_decode_len(n);
+    }
+};
 #endif
 
 #ifdef HAVE_APR_1_APR_BASE64_H
-    struct apr_base64 : public base {
-        static char_type* encode(const int_type* first, const int_type* last,
-                                 char_type* result)
-        {
-            return result + apr_base64_encode_binary(result, first, last - first);
-        }
+struct apr_base64 {
+    typedef char char_type;
 
-        static int_type* decode(const char_type* first, const char_type* last,
-                                int_type* result)
-        {
-            return result + apr_base64_decode_binary(result, first);
-        }
+    typedef unsigned char int_type;
 
-        static std::size_t max_encode_size(std::size_t n) {
-            return apr_base64_encode_len(n);
-        }
+    static char_type* encode(const int_type* first, const int_type* last, char_type* result)
+    {
+        return result + apr_base64_encode_binary(result, first, last - first);
+    }
 
-        static std::size_t max_decode_size(std::size_t n) {
-            // return apr_base64_decode_len(s);
-            return stlencoders::base64<char>::max_decode_size(n);
+    static int_type* decode(const char_type* first, const char_type* last, int_type* result)
+    {
+        int n = apr_base64_decode_binary(result, first);
+
+        if (n < 0) {
+            throw stlencoders::decode_error("apr_base64 error");
+        } else {
+            return result + n;
         }
-    };
+    }
+
+    static std::size_t max_encode_size(std::size_t n) {
+        return apr_base64_encode_len(n);
+    }
+
+    static std::size_t max_decode_size(std::size_t n) {
+        // return apr_base64_decode_len(s);
+        return stlencoders::base64<char>::max_decode_size(n);
+    }
+};
 #endif
 
 #ifdef HAVE_BOOST_ARCHIVE_ITERATORS_BASE64_FROM_BINARY_HPP
-    template<class charT>
-    struct boost_base64 {
-        typedef charT char_type;
+template<class charT>
+struct boost_base64 {
+    typedef charT char_type;
 
-        typedef unsigned char int_type;
+    typedef unsigned char int_type;
 
-    	template<class InputIterator, class OutputIterator>
-        static OutputIterator encode(
-            InputIterator first, InputIterator last, OutputIterator result
-            )
-        {
-            using namespace boost::archive::iterators;
+    template<class InputIterator, class OutputIterator>
+    static OutputIterator encode(
+        InputIterator first, InputIterator last, OutputIterator result
+        )
+    {
+        using namespace boost::archive::iterators;
 
-            typedef base64_from_binary<
-                transform_width<InputIterator, 6, 8>,
-                char_type> enc;
+        typedef base64_from_binary<transform_width<InputIterator, 6, 8>, char_type> enc;
 
-            // only encode multiples of three bytes
-            last -= (last - first) % 3;
+        // only encode multiples of three bytes
+        last -= (last - first) % 3;
 
-            return std::copy(enc(first), enc(last), result);
-        }
+        return std::copy(enc(first), enc(last), result);
+    }
 
-    	template<class InputIterator, class OutputIterator>
-        static OutputIterator decode(
-            InputIterator first, InputIterator last, OutputIterator result
-            )
-        {
-            using namespace boost::archive::iterators;
+    template<class InputIterator, class OutputIterator>
+    static OutputIterator decode(
+        InputIterator first, InputIterator last, OutputIterator result
+        )
+    {
+        using namespace boost::archive::iterators;
 
-            typedef transform_width<
-                binary_from_base64<InputIterator, char_type>,
-                8, 6> dec;
+        typedef transform_width<binary_from_base64<InputIterator, char_type>, 8, 6> dec;
 
-            // only decode multiples of four characters
-            last -= (last - first) % 4;
+        // only decode multiples of four characters
+        last -= (last - first) % 4;
 
-            return std::copy(dec(first), dec(last), result);
-        }
+        return std::copy(dec(first), dec(last), result);
+    }
 
-        static std::size_t max_encode_size(std::size_t n) {
-            return stlencoders::base64<char_type>::max_encode_size(n);
-        }
+    static std::size_t max_encode_size(std::size_t n) {
+        return stlencoders::base64<char_type>::max_encode_size(n);
+    }
 
-        static std::size_t max_decode_size(std::size_t n) {
-            return stlencoders::base64<char_type>::max_decode_size(n);
-        }
-    };
+    static std::size_t max_decode_size(std::size_t n) {
+        return stlencoders::base64<char_type>::max_decode_size(n);
+    }
+};
 #endif
 
-    std::string fmtclock(double t, int prec = 2)
+template<class charT, int N, class traits = std::char_traits<charT> >
+struct chargen {
+    typedef charT char_type;
+
+    typedef traits traits_type;
+
+    char_type operator()() const {
+        return traits::to_char_type(std::rand() % N);
+    }
+};
+
+class runner {
+public:
+    runner(std::ostream& out, int hlen = 29, int tlen = 10)
+        : os(out), headlen(hlen), timelen(tlen)
     {
+        os << std::fixed;
+
+        for (const std::size_t* p = samples; *p; ++p) {
+            maxsize = *p;
+        }
+
+        os << std::setw(headlen - 2) << "Input size [bytes]: ";
+        for (const std::size_t* psize = samples; *psize; ++psize) {
+            os << std::setw(timelen) << *psize;
+        }
+        os << std::endl;
+
+        os << std::string(headlen, '=');
+        for (const std::size_t* psize = samples; *psize; ++psize) {
+            os << std::string(timelen, '=');
+        }
+        os << std::endl;
+    }
+
+    template<class Codec, class Generator>
+    void encode(const char* name, unsigned long minruns, Generator gen) {
+        typedef typename Codec::char_type char_type;
+        typedef typename Codec::int_type int_type;
+
+        os << std::setw(headlen - 2) << name << ": " << std::flush;
+
+        for (const std::size_t* psize = samples; *psize; ++psize) {
+            std::vector<int_type> src(*psize);
+            std::vector<char_type> dst(Codec::max_encode_size(*psize));
+            unsigned long nruns = minruns * maxsize / *psize;
+
+            std::generate(src.begin(), src.end(), gen);
+
+            std::clock_t t0 = std::clock();
+            for (unsigned long i = 0; i != nruns; ++i) {
+                Codec::encode(&src[0], &src[0] + src.size(), &dst[0]);
+            }
+            std::clock_t t1 = std::clock();
+
+            os << std::setw(timelen) << fmtclock(double(t1 - t0) / nruns);
+            os << std::flush;
+        }
+        os << std::endl;
+    }
+
+    template<class Codec>
+    void encode(const char* name, unsigned long minruns) {
+        encode<Codec>(name, minruns, chargen<char, 256>());
+    }
+
+    template<class Codec, class Generator>
+    void decode(const char* name, unsigned long minruns, Generator gen) {
+        typedef typename Codec::char_type char_type;
+        typedef typename Codec::int_type int_type;
+
+        os << std::setw(headlen - 2) << name << ": " << std::flush;
+
+        for (const std::size_t* psize = samples; *psize; ++psize) {
+            std::vector<char_type> src(*psize);
+            std::vector<int_type> dst(Codec::max_decode_size(*psize));
+            unsigned long nruns = minruns * maxsize / *psize;
+
+            std::generate(src.begin(), src.end(), gen);
+
+            std::clock_t t0 = std::clock();
+            for (unsigned long i = 0; i != nruns; ++i) {
+                Codec::decode(&src[0], &src[0] + src.size(), &dst[0]);
+            }
+            std::clock_t t1 = std::clock();
+
+            os << std::setw(timelen) << fmtclock(double(t1 - t0) / nruns);
+            os << std::flush;
+        }
+        os << std::endl;
+    }
+
+private:
+    std::string fmtclock(double t, int prec = 2) {
         static const double clk_tck = CLOCKS_PER_SEC;
 
         std::ostringstream os;
@@ -284,132 +398,49 @@ namespace {
         }
         return os.str();
     }
-}
 
-const std::size_t samples[] = { 16, 256, 4096, 65536, 1048576, 0 };
+private:
+    std::ostream& os;
+    std::size_t maxsize;
+    std::size_t headlen;
+    std::size_t timelen;
 
-const int maxsize = 1048576;
-
-const int headlen = 29;
-const int timelen = 10;
-
-struct chargen {
-    chargen(int seed = 0) {
-        std::srand(seed);
-    }
-
-    char operator()() const {
-        return static_cast<char>(std::rand());
-    }
+private:
+    static const std::size_t samples[];
 };
 
-template<class Codec>
-std::clock_t time_encode(
-    const std::vector<unsigned char>& src,
-    std::vector<typename Codec::char_type>& dst,
-    unsigned long n
-    )
-{
-    std::clock_t t0 = std::clock();
-    for (unsigned long i = 0; i != n; ++i) {
-        Codec::encode(&src[0], &src[0] + src.size(), &dst[0]);
-    }
-    return std::clock() - t0;
-}
-
-template<class Codec>
-std::clock_t time_decode(
-    const std::vector<typename Codec::char_type>& src,
-    std::vector<unsigned char>& dst,
-    unsigned long n
-    )
-{
-    std::clock_t t0 = std::clock();
-    for (unsigned long i = 0; i != n; ++i) {
-        Codec::decode(&src[0], &src[0] + src.size(), &dst[0]);
-    }
-    return std::clock() - t0;
-}
-
-template<class Codec>
-void run(const std::string& encname, const std::string& decname,
-         std::ostream& os, unsigned long minruns)
-{
-    typedef typename Codec::char_type char_type;
-
-    os << std::setw(headlen - 2) << encname << ": " << std::flush;
-    for (const std::size_t* psize = samples; *psize; ++psize) {
-        std::size_t n = *psize;
-        unsigned long nruns = minruns * maxsize / n;
-
-        std::vector<unsigned char> src(n);
-        std::generate(src.begin(), src.end(), chargen());
-
-        std::vector<char_type> enc(Codec::max_encode_size(n));
-        std::clock_t t = time_encode<Codec>(src, enc, nruns);
-
-        os << std::setw(timelen) << fmtclock(double(t) / nruns) << std::flush;
-    }
-    os << std::endl;
-
-    os << std::setw(headlen - 2) << decname << ": " << std::flush;
-    for (const std::size_t* psize = samples; *psize; ++psize) {
-        std::size_t n = *psize;
-        unsigned long nruns = minruns * maxsize / n;
-
-        std::vector<unsigned char> src(n);
-        std::generate(src.begin(), src.end(), chargen());
-
-        std::vector<char_type> enc(Codec::max_encode_size(n));
-        enc.resize(Codec::encode(&src[0], &src[0] + src.size(), &enc[0]) - &enc[0]);
-
-        std::vector<unsigned char> dec(Codec::max_decode_size(enc.size()));
-        std::clock_t t = time_decode<Codec>(enc, dec, nruns);
-
-        os << std::setw(timelen) << fmtclock(double(t) / nruns) << std::flush;
-    }
-    os << std::endl;
-}
-
-template<class Codec>
-void run(std::ostream& os, const std::string& prefix, unsigned long minruns)
-{
-    run<Codec>(prefix + "encode", prefix + "decode", os, minruns);
-}
-
-void header(std::ostream& os, const char* s)
-{
-    os << std::setw(headlen - 2) << s << ": ";
-    for (const std::size_t* psize = samples; *psize; ++psize) {
-        os << std::setw(timelen) << *psize;
-    }
-    os << std::endl;
-
-    os << std::string(headlen, '=');
-    for (const std::size_t* psize = samples; *psize; ++psize) {
-        os << std::string(timelen, '=');
-    }
-    os << std::endl;
-}
+const std::size_t runner::samples[] = { 16, 256, 4096, 65536, 1048576, 0 };
 
 void usage(std::ostream& os, const char* progname)
 {
     os << "Usage: " << progname << " [OPTION]... [ENCODING]...\n"
        << "stlencoders performance test.\n"
        << "\n"
-#if defined(HAVE_MODP_B64_H) || defined(HAVE_APR_1_APR_BASE64_H)
        << "  -a         include alternative implementations\n"
-#endif
        << "  -l         list supported encoding schemes\n"
-       << "  -n NRUNS   number of iterations per test (default 100)\n"
+       << "  -n NRUNS   number of iterations per test (default 256)\n"
        << "  -w         include wide character encodings\n";
 }
 
 int main(int argc, char* argv[])
 {
+    typedef chargen<char, 2, stlencoders::base2_traits<char> > base2gen;
+    typedef chargen<char, 16, stlencoders::base16_traits<char> > base16gen;
+    typedef chargen<char, 32, stlencoders::base32_traits<char> > base32gen;
+    typedef chargen<char, 64, stlencoders::base64_traits<char> > base64gen;
+    typedef chargen<char, 32, stlencoders::base32hex_traits<char> > base32hexgen;
+    typedef chargen<char, 64, stlencoders::base64url_traits<char> > base64urlgen;
+
+    typedef chargen<wchar_t, 2, stlencoders::base2_traits<wchar_t> > wbase2gen;
+    typedef chargen<wchar_t, 16, stlencoders::base16_traits<wchar_t> > wbase16gen;
+    typedef chargen<wchar_t, 32, stlencoders::base32_traits<wchar_t> > wbase32gen;
+    typedef chargen<wchar_t, 64, stlencoders::base64_traits<wchar_t> > wbase64gen;
+    typedef chargen<wchar_t, 32, stlencoders::base32hex_traits<wchar_t> > wbase32hexgen;
+    typedef chargen<wchar_t, 64, stlencoders::base64url_traits<wchar_t> > wbase64urlgen;
+
     bool all = false;
     bool wchar = false;
-    unsigned long nruns = 100;
+    unsigned long nruns = 256;
 
     for (int c; (c = getopt(argc, argv, ":aln:w")) != -1; ) {
         switch (c) {
@@ -445,125 +476,138 @@ int main(int argc, char* argv[])
         args.assign(&argv[optind], &argv[argc]);
     }
 
-    std::cout << std::fixed;
-
-    header(std::cout, "Input size [bytes]");
-
-    using namespace stlencoders;
+    runner run(std::cout);
 
     if (std::find(args.begin(), args.end(), "base2") != args.end()) {
         typedef stlencoders::base2<char> base2;
-    	run<base2>(std::cout, "base2<char>::", nruns);
+        run.encode<base2>("base2<char>::encode", nruns);
+        run.decode<base2>("base2<char>::decode", nruns, base2gen());
     }
 
     if (std::find(args.begin(), args.end(), "base16") != args.end()) {
         typedef stlencoders::base16<char> base16;
-    	run<base16>(std::cout, "base16<char>::", nruns);
+        run.encode<base16>("base16<char>::encode", nruns);
+        run.decode<base16>("base16<char>::decode", nruns, base16gen());
     }
 
     if (std::find(args.begin(), args.end(), "base32") != args.end()) {
         typedef stlencoders::base32<char> base32;
-    	run<base32>(std::cout, "base32<char>::", nruns);
+        run.encode<base32>("base32<char>::encode", nruns);
+        run.decode<base32>("base32<char>::decode", nruns, base32gen());
     }
 
     if (std::find(args.begin(), args.end(), "base64") != args.end()) {
         typedef stlencoders::base64<char> base64;
-    	run<base64>(std::cout, "base64<char>::", nruns);
+        run.encode<base64>("base64<char>::encode", nruns);
+        run.decode<base64>("base64<char>::decode", nruns, base64gen());
     }
 
     if (std::find(args.begin(), args.end(), "base32hex") != args.end()) {
         typedef stlencoders::base32hex_traits<char> traits;
         typedef stlencoders::base32<char, traits> base32hex;
-    	run<base32hex>(std::cout, "base32hex<char>::", nruns);
+        run.encode<base32hex>("base32hex<char>::encode", nruns);
+        run.decode<base32hex>("base32hex<char>::decode", nruns, base32hexgen());
     }
 
     if (std::find(args.begin(), args.end(), "base64url") != args.end()) {
         typedef stlencoders::base64url_traits<char> traits;
         typedef stlencoders::base64<char, traits> base64url;
-    	run<base64url>(std::cout, "base64url<char>::", nruns);
+        run.encode<base64url>("base64url<char>::encode", nruns);
+        run.decode<base64url>("base64url<char>::decode", nruns, base64urlgen());
     }
 
     if (wchar) {
         if (std::find(args.begin(), args.end(), "base2") != args.end()) {
-            typedef stlencoders::base2<wchar_t> base2;
-            run<base2>(std::cout, "base2<wchar_t>::", nruns);
+            typedef stlencoders::base2<wchar_t> wbase2;
+            run.encode<wbase2>("base2<wchar_t>::encode", nruns);
+            run.decode<wbase2>("base2<wchar_t>::decode", nruns, wbase2gen());
         }
 
         if (std::find(args.begin(), args.end(), "base16") != args.end()) {
-            typedef stlencoders::base16<wchar_t> base16;
-            run<base16>(std::cout, "base16<wchar_t>::", nruns);
+            typedef stlencoders::base16<wchar_t> wbase16;
+            run.encode<wbase16>("base16<wchar_t>::encode", nruns);
+            run.decode<wbase16>("base16<wchar_t>::decode", nruns, wbase16gen());
         }
 
         if (std::find(args.begin(), args.end(), "base32") != args.end()) {
-            typedef stlencoders::base32<wchar_t> base32;
-            run<base32>(std::cout, "base32<wchar_t>::", nruns);
+            typedef stlencoders::base32<wchar_t> wbase32;
+            run.encode<wbase32>("base32<wchar_t>::encode", nruns);
+            run.decode<wbase32>("base32<wchar_t>::decode", nruns, wbase32gen());
         }
 
         if (std::find(args.begin(), args.end(), "base64") != args.end()) {
-            typedef stlencoders::base64<wchar_t> base64;
-            run<base64>(std::cout, "base64<wchar_t>::", nruns);
+            typedef stlencoders::base64<wchar_t> wbase64;
+            run.encode<wbase64>("base64<wchar_t>::encode", nruns);
+            run.decode<wbase64>("base64<wchar_t>::decode", nruns, wbase64gen());
         }
 
         if (std::find(args.begin(), args.end(), "base32hex") != args.end()) {
             typedef stlencoders::base32hex_traits<wchar_t> traits;
-            typedef stlencoders::base32<wchar_t, traits> base32hex;
-            run<base32hex>(std::cout, "base32hex<char>::", nruns);
+            typedef stlencoders::base32<wchar_t, traits> wbase32hex;
+            run.encode<wbase32hex>("base32hex<wchar_t>::encode", nruns);
+            run.decode<wbase32hex>("base32hex<wchar_t>::decode", nruns, wbase32hexgen());
         }
 
         if (std::find(args.begin(), args.end(), "base64url") != args.end()) {
             typedef stlencoders::base64url_traits<wchar_t> traits;
-            typedef stlencoders::base64<wchar_t, traits> base64url;
-            run<base64url>(std::cout, "base64url<char>::", nruns);
+            typedef stlencoders::base64<wchar_t, traits> wbase64url;
+            run.encode<wbase64url>("base64url<wchar_t>::encode", nruns);
+            run.decode<wbase64url>("base64url<wchar_t>::decode", nruns, wbase64urlgen());
         }
     }
 
-    if (all) {
+    if (!all) {
+        return EXIT_SUCCESS;
+    }
+
 #ifdef HAVE_MODP_B2_H
-        if (std::find(args.begin(), args.end(), "base2") != args.end()) {
-            run<modp_b2>(std::cout, "modp_b2_", nruns);
-        }
+    if (std::find(args.begin(), args.end(), "base2") != args.end()) {
+        run.encode<modp_b2>("modp_b2_encode", nruns);
+        run.decode<modp_b2>("modp_b2_decode", nruns, base2gen());
+    }
 #endif
 
 #ifdef HAVE_MODP_B16_H
-        if (std::find(args.begin(), args.end(), "base16") != args.end()) {
-            run<modp_b16>(std::cout, "modp_b16_", nruns);
-        }
+    if (std::find(args.begin(), args.end(), "base16") != args.end()) {
+        run.encode<modp_b16>("modp_b16_encode", nruns);
+        run.decode<modp_b16>("modp_b16_decode", nruns, base16gen());
+    }
 #endif
 
 #ifdef HAVE_MODP_B64_H
-        if (std::find(args.begin(), args.end(), "base64") != args.end()) {
-            run<modp_b64>(std::cout, "modp_b64_", nruns);
-        }
+    if (std::find(args.begin(), args.end(), "base64") != args.end()) {
+        run.encode<modp_b64>("modp_b64_encode", nruns);
+        run.decode<modp_b64>("modp_b64_decode", nruns, base64gen());
+    }
 #endif
 
 #ifdef HAVE_MODP_B64W_H
-        if (std::find(args.begin(), args.end(), "base64url") != args.end()) {
-            run<modp_b64w>(std::cout, "modp_b64w_", nruns);
-        }
+    if (std::find(args.begin(), args.end(), "base64url") != args.end()) {
+        run.encode<modp_b64w>("modp_b64w_encode", nruns);
+        run.decode<modp_b64w>("modp_b64w_decode", nruns, base64urlgen());
+    }
 #endif
 
 #ifdef HAVE_APR_1_APR_BASE64_H
-        if (std::find(args.begin(), args.end(), "base64") != args.end()) {
-            run<apr_base64>(std::cout, "apr_base64_", nruns);
-        }
+    if (std::find(args.begin(), args.end(), "base64") != args.end()) {
+        run.encode<apr_base64>("apr_base64_encode", nruns);
+        run.decode<apr_base64>("apr_base64_decode", nruns, base64gen());
+    }
 #endif
 
 #ifdef HAVE_BOOST_ARCHIVE_ITERATORS_BASE64_FROM_BINARY_HPP
-        if (std::find(args.begin(), args.end(), "base64") != args.end()) {
-            run<boost_base64<char> >(
-                "base64_from_binary<char>", "binary_from_base64<char>",
-                std::cout, nruns
-                );
-        }
+    if (std::find(args.begin(), args.end(), "base64") != args.end()) {
+        typedef boost_base64<char> base64;
+        run.encode<base64>("base64_from_binary<char>", nruns);
+        run.decode<base64>("binary_from_base64<char>", nruns, base64gen());
 
-        if (wchar && std::find(args.begin(), args.end(), "base64") != args.end()) {
-            run<boost_base64<wchar_t> >(
-                "base64_from_binary<wchar_t>", "binary_from_base64<wchar_t>",
-                std::cout, nruns
-                );
+        if (wchar) {
+            typedef boost_base64<wchar_t> wbase64;
+            run.encode<wbase64>("base64_from_binary<wchar_t>", nruns);
+            run.decode<wbase64>("binary_from_base64<wchar_t>", nruns, wbase64gen());
         }
-#endif
     }
+#endif
 
     return EXIT_SUCCESS;
 }
