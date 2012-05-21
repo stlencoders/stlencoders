@@ -50,18 +50,21 @@
 
 template<bool F>
 struct predicate {
-    template<class T> bool operator()(const T&) { return F; }
+    template<class T>
+    bool operator()(const T&) {
+        return F;
+    }
 };
 
 class skipws {
 public:
-  template<class charT>
-  bool operator()(const charT& c) {
-    return std::isspace(c, loc);
-  }
+    template<class charT>
+    bool operator()(const charT& c) {
+        return std::isspace(c, loc);
+    }
 
 private:
-  std::locale loc;
+    std::locale loc;
 };
 
 template<class Codec, class OutputIterator, class Predicate>
@@ -169,7 +172,7 @@ int main(int argc, char* argv[])
         } else if (skipall) {
             decode(codec, filename, out, predicate<true>());
         } else {
-	  decode(codec, filename, out, skipws());
+            decode(codec, filename, out, skipws());
         }
     } catch (std::exception& e) {
         std::cerr << argv[0] << ": " << filename << ": " << e.what() << '\n';
