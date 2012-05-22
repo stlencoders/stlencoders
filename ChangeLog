@@ -1,0 +1,41 @@
+2012-05-21  Thomas Kemmer  <tkemmer@computer.org>
+
+	* configure.ac, stldecode.cpp: Debian Lenny/gcc-4.2 compatibility
+	* stlbench.cpp: refactoring
+
+2012-05-19  Thomas Kemmer  <tkemmer@computer.org>
+
+	* configure.ac, stlbench.cpp: added boost base64_from_binary
+	* autogen.sh, configure.ac, trunk: added GNU release files
+	* Makefile.am, test_base16.cpp, test_base2.cpp, test_base32.cpp,
+	test_base64.cpp, util.hpp, xassert.hpp: test refactoring
+	* Makefile.am: clean gcov files
+
+2012-05-18  Thomas Kemmer  <tkemmer@computer.org>
+
+	* test_base16.cpp, test_base2.cpp, test_base32.cpp,
+	test_base64.cpp: improved test coverage
+
+2012-05-17  Thomas Kemmer  <tkemmer@computer.org>
+
+	* base16.hpp, base32.hpp, base64.hpp: use for-loop in decode
+
+2012-05-15  Thomas Kemmer  <tkemmer@computer.org>
+
+	* Doxymain, base32.hpp, base64.hpp, test_base32.cpp,
+	test_base64.cpp, util.hpp: optional padding fixes and docs
+
+2012-05-09  Thomas Kemmer  <tkemmer@computer.org>
+
+	* base2.hpp: base2 improvements
+
+2012-05-08  Thomas Kemmer  <tkemmer@computer.org>
+
+	* Makefile.am, base2.hpp, check.sh, configure.ac, stlbench.cpp,
+	stldecode.cpp, stlencode.cpp: base2 initial version
+	* Makefile.am, base32.hpp, base64.hpp, configure.ac,
+	stlencode.cpp: added pad parameter to encode
+
+2012-05-04  Thomas Kemmer  <tkemmer@computer.org>
+
+	* stlbench.cpp: removed outdated usage info

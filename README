@@ -1,21 +1,82 @@
-STLENCODERS - Generic Base 16/32/64 encoding algorithms for C++
----------------------------------------------------------------
+stlencoders - Generic Base2/16/32/64 encoding algorithms for C++
+================================================================
 
-STLENCODERS is a C++ implementation of the standard Base 64 encoding
-and decoding algorithms as defined in RFC 4648, working with STL
-iterators.
+stlencoders is a C++ implementation of the Base16, Base32 and Base64
+encoding schemes as defined in RFC 4648.  Base2, i.e. binary, encoding
+is also supported.
 
-STLENCODERS was mainly inspired by Nick Galbreath's excellent
-STRINGENCODERS library.  But where stringencoders strives for maximum
-performance while retaining a high grade of portability, stlencoders'
-main goals are flexibility and ease of use in a modern C++
-environment, even if sacrificing performance (a little).  However, as
-the STRINGENCODERS project page puts it,
+In a nutshell, the stlencoders library
 
-    Unless your application is doing almost nothing except encoding
-    and decoding, the odds are that these functions will not improve
-    the total performance of your application. Even with slow versions
-    of base64 it's already so fast it's probably not measurable in
-    your application.
+* implements encoding and decoding operations as generic algorithms
+  that operate on STL-style iterators
 
-As always, your mileage may vary.
+* supports different encoding alphabets using custom traits classes
+
+* contains support for wide-character encodings
+
+* comes with full documentation and an extensive unit test suite
+
+* is implemented as a header-only library, i.e. requires no
+  separately-compiled library binaries or special treatment when
+  linking
+
+* is designed to be highly portable and has been tested on Windows and
+  Linux with a number of different compilers
+
+* provides reasonable performance that matches most (if not all)
+  alternative implementations
+
+stlencoders is released under the MIT License, see the file "COPYING"
+for more information.
+
+stlencoders is hosted on Google Code:
+
+* http://code.google.com/p/stlencoders
+
+
+Quick Installation
+==================
+
+Since stlencoders is a header-only library, you can simply copy the
+contents of the "include/stlencoders" directory to a location in your
+C++ compiler's include path, e.g. /usr/local/include on UN*X systems.
+However, you should keep the "stlencoders" subdirectory, or the
+example programs and unit tests will not compile.
+
+
+Building stlencoders on UN*X/Linux/Mac OS X
+===========================================
+
+Quite simply:
+
+   ./configure
+   make
+   make check
+   make install
+
+Configure has many additional options; see the "INSTALL" file or run
+"./configure --help" for details.
+
+
+Building stlencoders on Microsoft Windows
+=========================================
+
+A Microsoft Visual Studio Solution File ("stlencoders.sln") is
+provided, which can be used to build the example programs and unit
+tests.
+
+
+Examples
+========
+
+stlencoders comes with a couple of example programs located in the
+"src" directory, which mainly serve to illustrate use of the library,
+but may also be useful in their own rights:
+
+* stlencode: encodes a file, or standard input, to standard output.
+
+* stldecode: decodes a file, or standard input, to standard output.
+
+* stlbench: measures the performance of the supported
+  encoding/decoding algorithms; optionally compares these figures to
+  those of other encoding libraries available on your system.
