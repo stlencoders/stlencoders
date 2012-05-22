@@ -53,8 +53,8 @@ namespace stlencoders {
      * Character encoding traits specialization for @c char.
      *
      * This character encoding traits class defines the encoding
-     * alphabet for the @em %base2 encoding scheme as defined in RFC
-     * 4648 for the encoding character type @c char.
+     * alphabet for the @em %base2 encoding scheme for the encoding
+     * character type @c char.
      */
     template<>
     struct base2_traits<char> {
@@ -113,8 +113,8 @@ namespace stlencoders {
      * Character encoding traits specialization for @c wchar_t.
      *
      * This character encoding traits class defines the encoding
-     * alphabet for the @em %base2 encoding scheme as defined in RFC
-     * 4648 for the encoding character type @c wchar_t.
+     * alphabet for the @em %base2 encoding scheme for the encoding
+     * character type @c wchar_t.
      */
     template<>
     struct base2_traits<wchar_t>
@@ -122,7 +122,14 @@ namespace stlencoders {
     };
 
     /**
-     * The Base2 codec class template.
+     * This class template implements the standard Base2, or binary,
+     * encoding.
+     *
+     * The encoding process represents 8-bit groups (octets) of input
+     * data as output strings of 8 encoded characters.  Proceeding
+     * from left to right, an 8-bit input is taken from the input
+     * data.  These 8 bits are then translated individually into a
+     * single character in the Base2 alphabet.
      *
      * @tparam charT the encoding character type
      *

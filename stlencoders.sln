@@ -7,6 +7,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "stlencode", "src\stlencode.
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "stldecode", "src\stldecode.vcxproj", "{CE1852ED-4BD5-4F7B-8241-7FBADAD9DA7B}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "test_base2", "tests\test_base2.vcxproj", "{A5EF8442-C957-4D50-AFBC-E8A2ECFFE50F}"
+EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "test_base16", "tests\test_base16.vcxproj", "{E4BED990-E303-4096-8DF7-7658C31E647E}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "test_base32", "tests\test_base32.vcxproj", "{3C2873A2-E45C-41B7-8830-62E71704E1B6}"
@@ -23,6 +25,10 @@ Global
 		Release|Win32 = Release|Win32
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{A5EF8442-C957-4D50-AFBC-E8A2ECFFE50F}.Debug|Win32.ActiveCfg = Debug|Win32
+		{A5EF8442-C957-4D50-AFBC-E8A2ECFFE50F}.Debug|Win32.Build.0 = Debug|Win32
+		{A5EF8442-C957-4D50-AFBC-E8A2ECFFE50F}.Release|Win32.ActiveCfg = Release|Win32
+		{A5EF8442-C957-4D50-AFBC-E8A2ECFFE50F}.Release|Win32.Build.0 = Release|Win32
 		{E4BED990-E303-4096-8DF7-7658C31E647E}.Debug|Win32.ActiveCfg = Debug|Win32
 		{E4BED990-E303-4096-8DF7-7658C31E647E}.Debug|Win32.Build.0 = Debug|Win32
 		{E4BED990-E303-4096-8DF7-7658C31E647E}.Release|Win32.ActiveCfg = Release|Win32

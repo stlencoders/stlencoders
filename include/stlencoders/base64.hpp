@@ -285,10 +285,20 @@ namespace stlencoders {
     };
 
     /**
-     * The Base64 codec class template.
-     *
      * This class template implements the Base64 encoding as defined
      * in RFC 4648 for a given character type and encoding alphabet.
+     *
+     * The Base64 encoding is designed to represent arbitrary
+     * sequences of octets in a form that allows the use of both
+     * upper- and lowercase letters but that need not be human
+     * readable.
+     *
+     * The encoding process represents 24-bit groups of input data as
+     * output strings of 4 encoded characters.  Proceeding from left
+     * to right, a 24-bit input group is formed by concatenating 3
+     * 8-bit input groups.  These 24 bits are then treated as 4
+     * concatenated 6-bit groups, each of which is translated into a
+     * single character in the Base64 alphabet.
      *
      * @tparam charT the encoding character type
      *

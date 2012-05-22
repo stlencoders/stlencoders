@@ -38,11 +38,11 @@
  *
  * @subsection reqtraits Character Encoding Traits Requirements
  *
- * In the following table, @c traits denotes a class template defining
- * types and functions for a character type @c charT; @c c and @c d
- * denote values of type @c charT; @c e and @c f denote values of type
- * @c traits::int_type. Operations on character encoding traits
- * shall not throw exceptions.
+ * In the following tables, @c traits denotes a class template
+ * defining types and functions for a character type @c charT; @c c
+ * and @c d denote values of type @c charT; @c e and @c f denote
+ * values of type @c traits::int_type. Operations on character
+ * encoding traits shall not throw exceptions.
  *
  * <table>
  *   <tr>
@@ -183,7 +183,7 @@
  *
  * @subsection reqcodec Codec Requirements
  *
- * In the following table, @c codec denotes a codec class defining
+ * In the following tables, @c codec denotes a codec class defining
  * types and functions for a particular encoding with character type
  * @c charT and character encoding traits @c traits; @c i and @c j
  * denote iterators satisfying input iterator requirements and refer
@@ -194,7 +194,7 @@
  * an iterator satisfying output iterator requirements; @c s denotes a
  * function object that, when applied to a value of type @c
  * codec::char_type, returns a value testable as @c true; @c n denotes
- * a value of integral type.
+ * a value of integral type; and @c f denotes a boolean flag.
  *
  * <table>
  *   <tr>
