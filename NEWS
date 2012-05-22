@@ -1,3 +1,9 @@
-stlencoders v1.0.0, May 1st 2012:
+stlencoders 1.1.0
 
-* Initial release.
+	* base2 support
+	* optional padding for base32 and base64
+	* improved documentation and unit test coverage
+
+stlencoders 1.0.0
+
+	* initial "official" release
