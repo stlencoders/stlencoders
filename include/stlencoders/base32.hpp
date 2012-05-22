@@ -362,10 +362,19 @@ namespace stlencoders {
     };
 
     /**
-     * The Base32 codec class template.
-     *
      * This class template implements the Base32 encoding as defined
      * in RFC 4648 for a given character type and encoding alphabet.
+     *
+     * The Base32 encoding is designed to represent arbitrary
+     * sequences of octets in a form that needs to be case insensitive
+     * but that need not be human readable.
+     *
+     * The encoding process represents 40-bit groups of input data as
+     * output strings of 8 encoded characters.  Proceeding from left
+     * to right, a 40-bit input group is formed by concatenating 5
+     * 8-bit input groups.  These 40 bits are then treated as 8
+     * concatenated 5-bit groups, each of which is translated into a
+     * single character in the Base32 alphabet.
      *
      * @tparam charT the encoding character type
      *

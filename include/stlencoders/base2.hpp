@@ -122,7 +122,14 @@ namespace stlencoders {
     };
 
     /**
-     * The Base2 codec class template.
+     * This class template implements the standard Base2, or binary,
+     * encoding.
+     *
+     * The encoding process represents 8-bit groups (octets) of input
+     * data as output strings of 8 encoded characters.  Proceeding
+     * from left to right, an 8-bit input is taken from the input
+     * data.  These 8 bits are then translated individually into a
+     * single character in the Base2 alphabet.
      *
      * @tparam charT the encoding character type
      *

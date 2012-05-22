@@ -158,10 +158,18 @@ namespace stlencoders {
     };
 
     /**
-     * The Base16 codec class template.
-     *
      * This class template implements the Base16 encoding as defined
      * in RFC 4648 for a given character type and encoding alphabet.
+     *
+     * Base16 encoding is the standard case insensitive hexadecimal
+     * encoding.
+     *
+     * The encoding process represents 8-bit groups (octets) of input
+     * data as output strings of 2 encoded characters.  Proceeding
+     * from left to right, an 8-bit input is taken from the input
+     * data.  These 8 bits are then treated as 2 concatenated 4-bit
+     * groups, each of which is translated into a single character in
+     * the Base16 alphabet.
      *
      * @tparam charT the encoding character type
      *
