@@ -53,8 +53,8 @@ namespace stlencoders {
      * Character encoding traits specialization for @c char.
      *
      * This character encoding traits class defines the encoding
-     * alphabet for the @em %base2 encoding scheme as defined in RFC
-     * 4648 for the encoding character type @c char.
+     * alphabet for the @em %base2 encoding scheme for the encoding
+     * character type @c char.
      */
     template<>
     struct base2_traits<char> {
@@ -113,8 +113,8 @@ namespace stlencoders {
      * Character encoding traits specialization for @c wchar_t.
      *
      * This character encoding traits class defines the encoding
-     * alphabet for the @em %base2 encoding scheme as defined in RFC
-     * 4648 for the encoding character type @c wchar_t.
+     * alphabet for the @em %base2 encoding scheme for the encoding
+     * character type @c wchar_t.
      */
     template<>
     struct base2_traits<wchar_t>
