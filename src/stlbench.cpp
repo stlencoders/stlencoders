@@ -306,7 +306,7 @@ public:
             maxsize = *p;
         }
 
-        os << std::setw(headlen - 2) << "Input size [bytes]: ";
+        os << std::setw(headlen) << "Input size [bytes]: ";
         for (const std::size_t* psize = samples; *psize; ++psize) {
             os << std::setw(timelen) << *psize;
         }
