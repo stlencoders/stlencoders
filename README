@@ -12,7 +12,9 @@ In a nutshell, the stlencoders library
 
 * supports different encoding alphabets using custom traits classes
 
-* contains support for wide-character encodings
+* supports wide-character encodings (at least on platforms where the
+characters from the portable C execution set correspond to their wide
+character equivalents by zero extension)
 
 * comes with full documentation and an extensive unit test suite
 

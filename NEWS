@@ -1,3 +1,7 @@
+stlencoders 1.1.1
+
+	* fixed stlbench/apr_base64_decode_binary
+
 stlencoders 1.1.0
 
 	* base2 support

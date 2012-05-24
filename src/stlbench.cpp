@@ -215,8 +215,9 @@ struct apr_base64 {
         return result + apr_base64_encode_binary(result, first, last - first);
     }
 
-    static int_type* decode(const char_type* first, const char_type* last, int_type* result)
+    static int_type* decode(const char_type* first, const char_type*, int_type* result)
     {
+        // requires zero-terminated input string
         int n = apr_base64_decode_binary(result, first);
 
         if (n < 0) {
@@ -231,7 +232,7 @@ struct apr_base64 {
     }
 
     static std::size_t max_decode_size(std::size_t n) {
-        // return apr_base64_decode_len(s);
+        // no corresponding apr_base64 function
         return stlencoders::base64<char>::max_decode_size(n);
     }
 };
@@ -363,10 +364,11 @@ public:
             unsigned long nruns = minruns * maxsize / *psize;
 
             std::generate(src.begin(), src.end(), gen);
+            src.push_back('\0'); // for apr_base64_decode_binary
 
             std::clock_t t0 = std::clock();
             for (unsigned long i = 0; i != nruns; ++i) {
-                Codec::decode(&src[0], &src[0] + src.size(), &dst[0]);
+                Codec::decode(&src[0], &src[0] + *psize, &dst[0]);
             }
             std::clock_t t1 = std::clock();
 

@@ -1,3 +1,7 @@
+2012-05-23  Thomas Kemmer  <tkemmer@computer.org>
+
+	* src/stlbench.cpp: fixed apr_base64::decode
+
 2012-05-21  Thomas Kemmer  <tkemmer@computer.org>
 
 	* configure.ac, stldecode.cpp: Debian Lenny/gcc-4.2 compatibility
