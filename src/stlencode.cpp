@@ -22,16 +22,12 @@
  * SOFTWARE.
  */
 
-#ifdef HAVE_CONFIG_H
-# include "config.h"
-#endif
-
-#include <stlencoders/base2.hpp>
-#include <stlencoders/base16.hpp>
-#include <stlencoders/base32.hpp>
-#include <stlencoders/base64.hpp>
-#include <stlencoders/iterator.hpp>
-#include <stlencoders/traits.hpp>
+#include "base2.hpp"
+#include "base16.hpp"
+#include "base32.hpp"
+#include "base64.hpp"
+#include "iterator.hpp"
+#include "traits.hpp"
 
 #include <cerrno>
 #include <cstdlib>
@@ -39,6 +35,10 @@
 #include <fstream>
 #include <iostream>
 #include <string>
+
+#ifdef HAVE_CONFIG_H
+# include "config.h"
+#endif
 
 #if defined(HAVE_GETOPT_H)
 # include <getopt.h>

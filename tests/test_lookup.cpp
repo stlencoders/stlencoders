@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-#include <stlencoders/lookup.hpp>
+#include "lookup.hpp"
 
 #include <cassert>
 #include <cstdlib>

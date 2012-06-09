@@ -22,14 +22,13 @@
  * SOFTWARE.
  */
 
-#include <stlencoders/base16.hpp>
+#include "base16.hpp"
+#include "util.hpp"
 
 #include <cassert>
 #include <cstdlib>
 #include <locale>
 #include <string>
-
-#include "util.hpp"
 
 int main()
 {

@@ -22,13 +22,12 @@
  * SOFTWARE.
  */
 
-#include <stlencoders/base64.hpp>
+#include "base64.hpp"
+#include "util.hpp"
 
 #include <cassert>
 #include <cstdlib>
 #include <string>
-
-#include "util.hpp"
 
 int main()
 {

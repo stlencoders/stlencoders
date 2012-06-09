@@ -1,11 +1,11 @@
 # Process this file with automake to produce Makefile.in
 
-nobase_include_HEADERS = \
-	stlencoders/base2.hpp \
-	stlencoders/base16.hpp \
-	stlencoders/base32.hpp \
-	stlencoders/base64.hpp \
-	stlencoders/error.hpp \
-	stlencoders/iterator.hpp \
-	stlencoders/lookup.hpp \
-	stlencoders/traits.hpp
+pkginclude_HEADERS = \
+	base2.hpp \
+	base16.hpp \
+	base32.hpp \
+	base64.hpp \
+	error.hpp \
+	iterator.hpp \
+	lookup.hpp \
+	traits.hpp

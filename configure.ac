@@ -2,13 +2,14 @@
 
 AC_PREREQ([2.61])
 
-AC_INIT([stlencoders], [1.1.1], [tkemmer@computer.org])
+AC_INIT([stlencoders], [1.1.2], [tkemmer@computer.org])
 AC_CONFIG_SRCDIR([config.h.in])
 AC_CONFIG_HEADERS([config.h])
 
 AC_CONFIG_FILES([
-        Doxyfile
         Makefile
+        doc/Doxyfile
+        doc/Makefile
         include/Makefile
         src/Makefile
         tests/Makefile
@@ -18,6 +19,7 @@ AC_LANG([C++])
 
 AC_PROG_CC
 AC_PROG_CXX
+AC_PROG_MKDIR_P
 AC_PROG_INSTALL
 
 AC_CHECK_PROGS([DOXYGEN], [doxygen])

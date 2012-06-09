@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-#include <stlencoders/traits.hpp>
+#include "traits.hpp"
 
 #include <cassert>
 #include <cstdlib>

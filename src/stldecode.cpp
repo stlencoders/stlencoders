@@ -22,14 +22,10 @@
  * SOFTWARE.
  */
 
-#ifdef HAVE_CONFIG_H
-# include "config.h"
-#endif
-
-#include <stlencoders/base2.hpp>
-#include <stlencoders/base16.hpp>
-#include <stlencoders/base32.hpp>
-#include <stlencoders/base64.hpp>
+#include "base2.hpp"
+#include "base16.hpp"
+#include "base32.hpp"
+#include "base64.hpp"
 
 #include <cstdlib>
 #include <cstring>
@@ -37,6 +33,10 @@
 #include <iostream>
 #include <locale>
 #include <string>
+
+#ifdef HAVE_CONFIG_H
+# include "config.h"
+#endif
 
 #if defined(HAVE_GETOPT_H)
 # include <getopt.h>

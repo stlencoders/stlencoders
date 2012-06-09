@@ -1,29 +1,24 @@
 # Process this file with automake to produce Makefile.in
 
-ACLOCAL_AMFLAGS = -I m4
+#ACLOCAL_AMFLAGS = -I m4
 
-SUBDIRS = src include tests
+SUBDIRS = doc src include tests
 
-EXTRA_DIST = Doxymain stlencoders.sln stlencoders.props
+EXTRA_DIST = stlencoders.sln stlencoders.props
 
-doc:
-	$(DOXYGEN) Doxyfile
+docdistdir = $(PACKAGE)-doc-$(VERSION)
 
-docdist = $(PACKAGE)-doc-$(VERSION)
-
-docdistdir: distdir
-	(cd $(distdir) && ./configure && make doc)
+docdistdir:
+	$(MKDIR_P) $(docdistdir)
+	$(MAKE) $(AM_MAKEFLAGS) docdir="`pwd`/$(docdistdir)" install-html
 
 docdist-gzip: docdistdir
-	$(AMTAR) chof - $(distdir)/doc | gzip -c >$(docdist).tar.gz
-	rm -rf $(distdir)
+	$(AMTAR) chof - $(docdistdir) | gzip -c >$(docdistdir).tar.gz
+	rm -rf $(docdistdir)
 
 docdist-zip: docdistdir
-	-rm -f $(docdist).zip
-	zip -rq $(docdist).zip $(distdir)/doc
-	rm -rf $(distdir)
+	-rm -f $(docdistdir).zip
+	zip -rq $(docdistdir).zip $(docdistdir)
+	rm -rf $(docdistdir)
 
-clean-local:
-	rm -rf doc
-
-.PHONY: doc docdistdir docdist docdist-gzip docdist-zip
+.PHONY: docdistdir docdist docdist-gzip docdist-zip

@@ -22,11 +22,11 @@
  * SOFTWARE.
  */
 
-#include <stlencoders/base2.hpp>
-#include <stlencoders/base16.hpp>
-#include <stlencoders/base32.hpp>
-#include <stlencoders/base64.hpp>
-#include <stlencoders/error.hpp>
+#include "base2.hpp"
+#include "base16.hpp"
+#include "base32.hpp"
+#include "base64.hpp"
+#include "error.hpp"
 
 #include <algorithm>
 #include <cassert>
