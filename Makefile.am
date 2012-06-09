@@ -1,28 +1,23 @@
 # Process this file with automake to produce Makefile.in
 
-#ACLOCAL_AMFLAGS = -I m4
+docdistdir = $(PACKAGE)-doc-$(VERSION)
 
 SUBDIRS = doc src include tests
 
 EXTRA_DIST = \
 	debian/changelog debian/compat debian/control debian/copyright debian/rules \
-	debian/stlencoders-dev.examples debian/stlencoders-dev.install \
-	debian/stlencoders-doc.docs debian/stlencoders-tools.install \
+	debian/libstlencoders-dev.examples debian/libstlencoders-dev.install \
+	debian/libstlencoders-doc.docs debian/stlencoders.install \
 	stlencoders.sln stlencoders.props
 
-docdistdir = $(PACKAGE)-doc-$(VERSION)
+dist-deb:
+	$(DPKG_BUILDPACKAGE) -b
+	$(MAKE) -f debian/rules clean
 
-docdistdir:
+dist-doc:
 	$(MKDIR_P) $(docdistdir)
 	$(MAKE) $(AM_MAKEFLAGS) docdir="`pwd`/$(docdistdir)" install-html
-
-docdist-gzip: docdistdir
-	$(AMTAR) chof - $(docdistdir) | gzip -c >$(docdistdir).tar.gz
-	rm -rf $(docdistdir)
-
-docdist-zip: docdistdir
-	-rm -f $(docdistdir).zip
 	zip -rq $(docdistdir).zip $(docdistdir)
 	rm -rf $(docdistdir)
 
-.PHONY: docdistdir docdist docdist-gzip docdist-zip
+.PHONY: dist-deb dist-doc

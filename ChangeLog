@@ -1,6 +1,6 @@
 2012-06-09  Thomas Kemmer  <tkemmer@computer.org>
 
-	* Makefile.am: added debian packaging
+	* configure.ac, Makefile.am, debian/*: added debian packaging
 	* configure.ac: directory restructuring
 
 2012-05-23  Thomas Kemmer  <tkemmer@computer.org>

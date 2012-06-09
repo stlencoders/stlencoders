@@ -23,6 +23,7 @@ AC_PROG_MKDIR_P
 AC_PROG_INSTALL
 
 AC_CHECK_PROGS([DOXYGEN], [doxygen])
+AC_CHECK_PROGS([DPKG_BUILDPACKAGE], [dpkg-buildpackage])
 
 # check for system headers used by example programs
 AC_CHECK_HEADERS([getopt.h unistd.h])

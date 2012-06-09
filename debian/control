@@ -7,24 +7,26 @@ Build-Depends-Indep: doxygen
 Standards-Version: 3.7.3
 Homepage: http://code.google.com/p/stlencoders
 
-Package: stlencoders-dev
+Package: libstlencoders-dev
 Section: libdevel
 Architecture: all
 Depends: ${misc:Depends}
-Description: stlencoders library [development]
- This is the stlencoders library.
+Description: Generic Base2/16/32/64 encoding algorithms for C++ [development]
+ This package contains the header files needed to compile programs
+ which use the stlencoders library.
 
-Package: stlencoders-doc
+Package: libstlencoders-doc
 Section: doc
 Architecture: all
 Depends: ${misc:Depends}
 Suggests: stlencoders-dev
-Description: stlencoders library [development docs]
- This package contains the documentation and programming reference.
+Description: Generic Base2/16/32/64 encoding algorithms for C++ [documentation]
+ This package contains the documentation for the stlencoders library.
 
-Package: stlencoders-tools
+Package: stlencoders
 Section: utils
 Architecture: any
 Depends: ${shlibs:Depends}, ${misc:Depends}
-Description: stlencoders tools
- This package contains the documentation and programming reference.
+Description: Generic Base2/16/32/64 encoding and decoding tools
+ This package contains example programs for the stlencoders library,
+ which may also be useful in their own rights.
