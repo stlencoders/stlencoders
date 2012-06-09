@@ -1,0 +1,30 @@
+Source: stlencoders
+Section: libs
+Priority: extra
+Maintainer: Thomas Kemmer <tkemmer@computer.org>
+Build-Depends: debhelper (>= 8.9.7)
+Build-Depends-Indep: doxygen
+Standards-Version: 3.7.3
+Homepage: http://code.google.com/p/stlencoders
+
+Package: stlencoders-dev
+Section: libdevel
+Architecture: all
+Depends: ${misc:Depends}
+Description: stlencoders library [development]
+ This is the stlencoders library.
+
+Package: stlencoders-doc
+Section: doc
+Architecture: all
+Depends: ${misc:Depends}
+Suggests: stlencoders-dev
+Description: stlencoders library [development docs]
+ This package contains the documentation and programming reference.
+
+Package: stlencoders-tools
+Section: utils
+Architecture: any
+Depends: ${shlibs:Depends}, ${misc:Depends}
+Description: stlencoders tools
+ This package contains the documentation and programming reference.

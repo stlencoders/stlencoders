@@ -4,7 +4,11 @@
 
 SUBDIRS = doc src include tests
 
-EXTRA_DIST = stlencoders.sln stlencoders.props
+EXTRA_DIST = \
+	debian/changelog debian/compat debian/control debian/copyright debian/rules \
+	debian/stlencoders-dev.examples debian/stlencoders-dev.install \
+	debian/stlencoders-doc.docs debian/stlencoders-tools.install \
+	stlencoders.sln stlencoders.props
 
 docdistdir = $(PACKAGE)-doc-$(VERSION)
 
