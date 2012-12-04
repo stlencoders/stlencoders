@@ -1,0 +1,17 @@
+*.cache
+*.in
+*.log
+*.status
+*.tar.gz
+*.zip
+.deps
+Doxyfile
+INSTALL
+Makefile
+aclocal.m4
+config.h
+configure
+depcomp
+install-sh
+missing
+stamp-*
