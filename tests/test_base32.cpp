@@ -22,6 +22,8 @@
  * SOFTWARE.
  */
 
+#include "test_base32.hpp"
+
 #include "base32.hpp"
 #include "util.hpp"
 
@@ -30,7 +32,7 @@
 #include <locale>
 #include <string>
 
-int main()
+void test_base32()
 {
     typedef stlencoders::base32<char> base32;
     typedef stlencoders::base32<wchar_t> wbase32;
@@ -281,6 +283,10 @@ int main()
         assert(traits::eq(lc, std::tolower(c, std::locale::classic())));
         assert(traits::eq_int_type(traits::to_int_type(lc), traits::to_int_type(uc)));
     }
+}
 
+int main()
+{
+    test_base32();
     return EXIT_SUCCESS;
 }

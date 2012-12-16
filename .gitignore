@@ -1,9 +1,11 @@
 *.cache
 *.in
 *.log
+*.o
 *.status
 *.tar.gz
 *.zip
+*~
 .deps
 Doxyfile
 INSTALL

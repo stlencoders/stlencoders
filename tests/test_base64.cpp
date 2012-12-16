@@ -22,6 +22,8 @@
  * SOFTWARE.
  */
 
+#include "test_base64.hpp"
+
 #include "base64.hpp"
 #include "util.hpp"
 
@@ -29,7 +31,7 @@
 #include <cstdlib>
 #include <string>
 
-int main()
+void test_base64()
 {
     typedef stlencoders::base64<char> base64;
     typedef stlencoders::base64<wchar_t> wbase64;
@@ -204,6 +206,10 @@ int main()
     assert_throw(strdec<base64>("AA?AA", make_skip("")), stlencoders::invalid_character);
     assert_throw(strdec<base64>("AAA?A", make_skip("")), stlencoders::invalid_character);
     assert_throw(strdec<base64>("AAAA?", make_skip("")), stlencoders::invalid_character);
+}
 
+int main()
+{
+    test_base64();
     return EXIT_SUCCESS;
 }

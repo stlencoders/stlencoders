@@ -22,6 +22,8 @@
  * SOFTWARE.
  */
 
+#include "test_base16.hpp"
+
 #include "base16.hpp"
 #include "util.hpp"
 
@@ -30,7 +32,7 @@
 #include <locale>
 #include <string>
 
-int main()
+void test_base16()
 {
     typedef stlencoders::base16<char> base16;
     typedef stlencoders::base16<wchar_t> wbase16;
@@ -145,5 +147,10 @@ int main()
         assert(traits::eq_int_type(traits::to_int_type(lc), traits::to_int_type(uc)));
     }
 
+}
+
+int main()
+{
+    test_base16();
     return EXIT_SUCCESS;
 }

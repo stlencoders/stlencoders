@@ -22,30 +22,9 @@
  * SOFTWARE.
  */
 
-#include "test_lookup.hpp"
+#ifndef TEST_BASE32_HPP
+#define TEST_BASE32_HPP
 
-#include "lookup.hpp"
+void test_base32();
 
-#include <cassert>
-#include <cstdlib>
-#include <limits>
-
-template<char C>
-struct identity_table {
-    enum { value = C };
-};
-
-void test_lookup()
-{
-    for (int i = 0; i != 256; ++i) {
-        char c = static_cast<unsigned char>(i);
-        int cv = stlencoders::lookup<identity_table, char>(c);
-        assert(c == cv);
-    }
-}
-
-int main()
-{
-    test_lookup();
-    return EXIT_SUCCESS;
-}
+#endif

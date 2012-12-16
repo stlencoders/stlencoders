@@ -22,6 +22,8 @@
  * SOFTWARE.
  */
 
+#include "test_base2.hpp"
+
 #include "base2.hpp"
 #include "util.hpp"
 
@@ -29,7 +31,7 @@
 #include <cstdlib>
 #include <string>
 
-int main()
+void test_base2()
 {
     typedef stlencoders::base2<char> base2;
     typedef stlencoders::base2<wchar_t> wbase2;
@@ -136,6 +138,10 @@ int main()
     assert_throw(strdec<base2>("000000?00", make_skip("")), stlencoders::invalid_character);
     assert_throw(strdec<base2>("0000000?0", make_skip("")), stlencoders::invalid_character);
     assert_throw(strdec<base2>("00000000?", make_skip("")), stlencoders::invalid_character);
+}
 
+int main()
+{
+    test_base2();
     return EXIT_SUCCESS;
 }

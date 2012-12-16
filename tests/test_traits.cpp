@@ -22,6 +22,8 @@
  * SOFTWARE.
  */
 
+#include "test_traits.hpp"
+
 #include "traits.hpp"
 
 #include <cassert>
@@ -43,7 +45,7 @@ struct identity_traits<wchar_t>
 : public stlencoders::portable_wchar_encoding_traits<identity_traits<char> > {
 };
 
-int main()
+void test_traits()
 {
     typedef identity_traits<wchar_t> traits;
 
@@ -138,6 +140,10 @@ int main()
     assert(traits::eq(L'|', traits::to_char_type(traits::to_int_type(L'|'))));
     assert(traits::eq(L'}', traits::to_char_type(traits::to_int_type(L'}'))));
     assert(traits::eq(L'~', traits::to_char_type(traits::to_int_type(L'~'))));
+}
 
+int main()
+{
+    test_traits();
     return EXIT_SUCCESS;
 }

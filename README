@@ -40,10 +40,8 @@ Quick Installation
 ==================
 
 Since stlencoders is a header-only library, you can simply copy the
-contents of the "include/stlencoders" directory to a location in your
-C++ compiler's include path, e.g. /usr/local/include on UN*X systems.
-However, you should keep the "stlencoders" subdirectory, or the
-example programs and unit tests will not compile.
+contents of the "include" directory to a location in your C++
+compiler's include path, e.g. /usr/local/include on UN*X systems.
 
 
 Building stlencoders on UN*X/Linux/Mac OS X

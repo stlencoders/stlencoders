@@ -1,3 +1,7 @@
+2012-12-16  Thomas Kemmer  <tkemmer@computer.org>
+
+	* tests/*: unit test refactoring
+
 2012-06-09  Thomas Kemmer  <tkemmer@computer.org>
 
 	* configure.ac, Makefile.am, debian/*: added debian packaging
