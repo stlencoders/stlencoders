@@ -147,7 +147,7 @@ namespace stlencoders {
 
     private:
         off_type pos;
-        const off_type len;
+        off_type len;
         const charT* endl;
     };
 

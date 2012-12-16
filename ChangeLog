@@ -1,5 +1,6 @@
 2012-12-16  Thomas Kemmer  <tkemmer@computer.org>
 
+	* include/iterator.hpp (stlencoders): fix default copy constructor
 	* tests/*: unit test refactoring
 
 2012-06-09  Thomas Kemmer  <tkemmer@computer.org>
