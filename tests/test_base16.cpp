@@ -22,8 +22,6 @@
  * SOFTWARE.
  */
 
-#include "test_base16.hpp"
-
 #include "base16.hpp"
 #include "util.hpp"
 
@@ -149,8 +147,10 @@ void test_base16()
 
 }
 
+#ifndef UNITTEST
 int main()
 {
     test_base16();
     return EXIT_SUCCESS;
 }
+#endif

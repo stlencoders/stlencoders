@@ -22,8 +22,6 @@
  * SOFTWARE.
  */
 
-#include "test_base2.hpp"
-
 #include "base2.hpp"
 #include "util.hpp"
 
@@ -140,8 +138,10 @@ void test_base2()
     assert_throw(strdec<base2>("00000000?", make_skip("")), stlencoders::invalid_character);
 }
 
+#ifndef UNITTEST
 int main()
 {
     test_base2();
     return EXIT_SUCCESS;
 }
+#endif

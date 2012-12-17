@@ -22,12 +22,6 @@ test_traits_SOURCES = test_traits.cpp test_traits.hpp
 
 TESTS = $(check_PROGRAMS)
 
-EXTRA_DIST = \
-	test_base2.vcxproj \
-	test_base16.vcxproj \
-	test_base32.vcxproj \
-	test_base64.vcxproj \
-	test_lookup.vcxproj \
-	test_traits.vcxproj
+EXTRA_DIST = vcxtests.cpp tests.vcxproj
 
 CLEANFILES = *.gcda *.gcno *.gcov

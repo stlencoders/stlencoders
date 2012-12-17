@@ -22,8 +22,6 @@
  * SOFTWARE.
  */
 
-#include "test_base32.hpp"
-
 #include "base32.hpp"
 #include "util.hpp"
 
@@ -285,8 +283,10 @@ void test_base32()
     }
 }
 
+#ifndef UNITTEST
 int main()
 {
     test_base32();
     return EXIT_SUCCESS;
 }
+#endif

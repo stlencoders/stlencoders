@@ -22,8 +22,6 @@
  * SOFTWARE.
  */
 
-#include "test_traits.hpp"
-
 #include "traits.hpp"
 
 #include <cassert>
@@ -142,8 +140,10 @@ void test_traits()
     assert(traits::eq(L'~', traits::to_char_type(traits::to_int_type(L'~'))));
 }
 
+#ifndef UNITTEST
 int main()
 {
     test_traits();
     return EXIT_SUCCESS;
 }
+#endif

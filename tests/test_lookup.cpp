@@ -22,8 +22,6 @@
  * SOFTWARE.
  */
 
-#include "test_lookup.hpp"
-
 #include "lookup.hpp"
 
 #include <cassert>
@@ -44,8 +42,10 @@ void test_lookup()
     }
 }
 
+#ifndef UNITTEST
 int main()
 {
     test_lookup();
     return EXIT_SUCCESS;
 }
+#endif

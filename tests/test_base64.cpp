@@ -22,8 +22,6 @@
  * SOFTWARE.
  */
 
-#include "test_base64.hpp"
-
 #include "base64.hpp"
 #include "util.hpp"
 
@@ -208,8 +206,10 @@ void test_base64()
     assert_throw(strdec<base64>("AAAA?", make_skip("")), stlencoders::invalid_character);
 }
 
+#ifndef UNITTEST
 int main()
 {
     test_base64();
     return EXIT_SUCCESS;
 }
+#endif
