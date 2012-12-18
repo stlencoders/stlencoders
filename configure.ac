@@ -36,7 +36,7 @@ AC_CHECK_LIB([modpbase64], [main], [stlbench_LDADD="-lmodpbase64 $stlbench_LDADD
 AC_CHECK_HEADERS([apr-1/apr_base64.h])
 AC_CHECK_LIB([aprutil-1], [apr_base64_encode], [stlbench_LDADD="-laprutil-1 $stlbench_LDADD"])
 
-# check for boost (used by stlbench)
+# check for boost libraries (used by stlbench)
 AC_CHECK_HEADERS([boost/archive/iterators/base64_from_binary.hpp])
 AC_CHECK_HEADERS([boost/archive/iterators/binary_from_base64.hpp])
 

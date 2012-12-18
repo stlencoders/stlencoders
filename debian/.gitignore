@@ -1,0 +1,6 @@
+files
+*.substvars
+libstlencoders-bin
+libstlencoders-dev
+libstlencoders-doc
+tmp

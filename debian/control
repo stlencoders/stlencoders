@@ -2,10 +2,18 @@ Source: stlencoders
 Section: libs
 Priority: extra
 Maintainer: Thomas Kemmer <tkemmer@computer.org>
-Build-Depends: debhelper (>= 8.9.7)
+Build-Depends: debhelper (>= 8)
 Build-Depends-Indep: doxygen
 Standards-Version: 3.7.3
 Homepage: http://code.google.com/p/stlencoders
+
+Package: libstlencoders-bin
+Section: utils
+Architecture: any
+Depends: ${shlibs:Depends}, ${misc:Depends}
+Description: Generic Base2/16/32/64 encoding and decoding tools
+ This package contains example programs for the stlencoders library,
+ which may also be useful in their own rights.
 
 Package: libstlencoders-dev
 Section: libdevel
@@ -22,11 +30,3 @@ Depends: ${misc:Depends}
 Suggests: stlencoders-dev
 Description: Generic Base2/16/32/64 encoding algorithms for C++ [documentation]
  This package contains the documentation for the stlencoders library.
-
-Package: stlencoders
-Section: utils
-Architecture: any
-Depends: ${shlibs:Depends}, ${misc:Depends}
-Description: Generic Base2/16/32/64 encoding and decoding tools
- This package contains example programs for the stlencoders library,
- which may also be useful in their own rights.
