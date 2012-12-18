@@ -1,6 +1,6 @@
 2012-12-18  Thomas Kemmer  <tkemmer@computer.org>
 
-	* README: updated README file
+	* README, NEWS: update for v1.1.2
 	* debian/*: Debian Squeeze compatibility
 
 2012-12-17  Thomas Kemmer  <tkemmer@computer.org>

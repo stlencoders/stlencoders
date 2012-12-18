@@ -1,3 +1,8 @@
+stlencoders 1.1.2
+
+	* MS Visual Studio 2012 unit test suite
+	* binary packages for Debian GNU/Linux
+
 stlencoders 1.1.1
 
 	* fixed stlbench/apr_base64_decode_binary
