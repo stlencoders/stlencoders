@@ -44,26 +44,51 @@ contents of the "include" directory to a location in your C++
 compiler's include path, e.g. /usr/local/include on UN*X systems.
 
 
-Building stlencoders on UN*X/Linux/Mac OS X
-===========================================
+Building on UN*X/Linux/Mac OS X
+===============================
 
 Quite simply:
 
-   ./configure
-   make
-   make check
-   make install
+  ./configure
+  make
+  make check
+  make install
 
-Configure has many additional options; see the "INSTALL" file or run
-"./configure --help" for details.
+Configure has many additional options; see the INSTALL file or run
+
+  ./configure --help
+
+for details.
 
 
-Building stlencoders on Microsoft Windows
-=========================================
+Building on Microsoft Windows
+=============================
 
-A Microsoft Visual Studio 2012 Solution File ("stlencoders.sln") is
+A Microsoft Visual Studio 2012 Solution File (stlencoders.sln) is
 provided, which can be used to build the example programs and unit
-test suite.
+tests.
+
+
+Building Debian packages
+========================
+
+To build binary packages for the Debian GNU/Linux distribution, run
+
+  dpkg-buildpackage -rfakeroot
+
+This will create the following packages:
+
+* libstlencoders-bin_<VERSION>_<ARCH>.deb: utility programs
+
+* libstlencoders-dev_<VERSION>_all.deb: library headers and examples
+
+* libstlencoders-doc_<VERSION>_all.deb: documentation
+
+The packages can then be installed via
+
+  dpkg -i <FILENAME>
+
+into system standard locations.
 
 
 Examples
