@@ -1,6 +1,7 @@
 2013-12-13  Thomas Kemmer  <tkemmer@computer.org>
 
-	* src/Makefile.am: removed check.sh (breaks in automake 1.13)
+	* README, debian/control: new homepage/repository on GitHub
+	* src/Makefile.am: remove check.sh (breaks in automake 1.13)
 
 2012-12-18  Thomas Kemmer  <tkemmer@computer.org>
 

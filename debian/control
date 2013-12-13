@@ -5,7 +5,7 @@ Maintainer: Thomas Kemmer <tkemmer@computer.org>
 Build-Depends: debhelper (>= 8)
 Build-Depends-Indep: doxygen
 Standards-Version: 3.7.3
-Homepage: http://code.google.com/p/stlencoders
+Homepage: https://github.com/stlencoders/stlencoders
 
 Package: libstlencoders-bin
 Section: utils
