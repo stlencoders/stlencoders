@@ -1,5 +1,6 @@
 2013-12-13  Thomas Kemmer  <tkemmer@computer.org>
 
+	* COPYING, */*.hpp, */*.cpp: update copyright notice
 	* doc/Doxymain: prevent line-wrap for function declarations
 	* doc/Doxyfile.in: remove obsolete Doxyfile entries
 	* README, debian/control: new homepage/repository on GitHub
