@@ -67,7 +67,7 @@
  *     <td>compile-time</td>
  *   </tr>
  *   <tr>
- *     <td class="memname">traits::eq(c, d)</td>
+ *     <td class="memname">traits::eq(c,&nbsp;d)</td>
  *     <td>@c bool</td>
  *     <td>
  *       Returns whether the character @c c is to be treated equal
@@ -76,7 +76,7 @@
  *     <td>constant</td>
  *   </tr>
  *   <tr>
- *     <td class="memname">traits::eq_int_type(e, f)</td>
+ *     <td class="memname">traits::eq_int_type(e,&nbsp;f)</td>
  *     <td>@c bool</td>
  *     <td>
  *       For all characters @c c and @c d in the encoding alphabet,
@@ -225,7 +225,7 @@
  *     <td>compile-time</td>
  *   </tr>
  *   <tr>
- *     <td class="memname">codec::encode(i, j, r)</td>
+ *     <td class="memname">codec::encode(i,&nbsp;j,&nbsp;r)</td>
  *     <td>type of @c r</td>
  *     <td>
  *       Encodes the octet range <c>[i, j)</c> into the output range
@@ -236,7 +236,7 @@
  *     <td>linear</td>
  *   </tr>
  *   <tr>
- *     <td class="memname">codec::decode(k, l, r)</td>
+ *     <td class="memname">codec::decode(k,&nbsp;l,&nbsp;r)</td>
  *     <td>type of @c r</td>
  *     <td>
  *       Decodes the character range <c>[k, l)</c> into the output
@@ -252,7 +252,7 @@
  *     <td>linear</td>
  *   </tr>
  *   <tr>
- *     <td class="memname">codec::decode(k, l, r, s)</td>
+ *     <td class="memname">codec::decode(k,&nbsp;l,&nbsp;r,&nbsp;s)</td>
  *     <td>type of @c r</td>
  *     <td>
  *       Decodes the character range <c>[k, l)</c> into the output
@@ -321,7 +321,7 @@
  *     <th>Complexity</th>
  *   </tr>
  *   <tr>
- *     <td class="memname">codec::encode(i, j, r, f)</td>
+ *     <td class="memname">codec::encode(i,&nbsp;j,&nbsp;r,&nbsp;f)</td>
  *     <td>type of @c r</td>
  *     <td>
  *       Encodes the octet range <c>[i, j)</c> into the output range
@@ -333,7 +333,7 @@
  *     <td>linear</td>
  *   </tr>
  *   <tr>
- *     <td class="memname">codec::encode_upper(i, j, r)</td>
+ *     <td class="memname">codec::encode_upper(i,&nbsp;j,&nbsp;r)</td>
  *     <td>type of @c r</td>
  *     <td>
  *       Encodes the octet range <c>[i, j)</c> into the output range
@@ -346,7 +346,7 @@
  *     <td>linear</td>
  *   </tr>
  *   <tr>
- *     <td class="memname">codec::encode_lower(i, j, r)</td>
+ *     <td class="memname">codec::encode_lower(i,&nbsp;j,&nbsp;r)</td>
  *     <td>type of @c r</td>
  *     <td>
  *       Encodes the octet range <c>[i, j)</c> into the output range
@@ -359,7 +359,7 @@
  *     <td>linear</td>
  *   </tr>
  *   <tr>
- *     <td class="memname">codec::encode_upper(i, j, r, f)</td>
+ *     <td class="memname">codec::encode_upper(i,&nbsp;j,&nbsp;r,&nbsp;f)</td>
  *     <td>type of @c r</td>
  *     <td>
  *       Encodes the octet range <c>[i, j)</c> into the output range
@@ -372,7 +372,7 @@
  *     <td>linear</td>
  *   </tr>
  *   <tr>
- *     <td class="memname">codec::encode_lower(i, j, r, f)</td>
+ *     <td class="memname">codec::encode_lower(i,&nbsp;j,&nbsp;r,&nbsp;f)</td>
  *     <td>type of @c r</td>
  *     <td>
  *       Encodes the octet range <c>[i, j)</c> into the output range
