@@ -14,14 +14,6 @@ stldecode_SOURCES = stldecode.cpp
 
 stlbench_SOURCES = stlbench.cpp
 
-check_SCRIPTS = check.sh
-
-dist_check_SCRIPTS = $(check_SCRIPTS)
-
-TESTS_ENVIRONMENT = $(SHELL) -e
-
-TESTS = $(check_SCRIPTS)
-
 EXTRA_DIST = stlencode.vcxproj stldecode.vcxproj stlbench.vcxproj
 
 CLEANFILES = *.gcda *.gcno *.gcov
