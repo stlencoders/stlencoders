@@ -2,7 +2,7 @@
 
 AC_PREREQ([2.61])
 
-AC_INIT([stlencoders], [1.1.2], [tkemmer@computer.org])
+AC_INIT([stlencoders], [1.1.3], [tkemmer@computer.org])
 AC_CONFIG_SRCDIR([config.h.in])
 AC_CONFIG_HEADERS([config.h])
 

@@ -4,3 +4,4 @@ test_base32
 test_base64
 test_lookup
 test_traits
+*.trs
