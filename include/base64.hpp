@@ -29,6 +29,8 @@
 #include "lookup.hpp"
 #include "traits.hpp"
 
+#include <iterator>
+
 /**
  * @file
  *
@@ -116,7 +118,6 @@ namespace stlencoders {
      * @tparam charT the encoding character type
      */
     template<class charT> struct base64_traits;
-
 
     /**
      * Character encoding traits specialization for @c char.
@@ -278,7 +279,6 @@ namespace stlencoders {
      * alphabet for the @em %base64url encoding scheme as defined in
      * RFC 4648 for the encoding character type @c wchar_t.
      */
-
     template<>
     struct base64url_traits<wchar_t>
     : public portable_wchar_encoding_traits<base64url_traits<char> > {
@@ -356,33 +356,8 @@ namespace stlencoders {
             bool pad = true
             )
         {
-            for (; first != last; ++first) {
-                int_type c0 = *first;
-                *result = traits::to_char_type((c0 & 0xff) >> 2);
-                ++result;
-
-                if (++first == last) {
-                    *result++ = traits::to_char_type((c0 & 0x03) << 4);
-                    return pad ? pad_n(result, 2) : result;
-                }
-
-                int_type c1 = *first;
-                *result = traits::to_char_type((c0 & 0x03) << 4 | (c1 & 0xff) >> 4);
-                ++result;
-
-                if (++first == last) {
-                    *result++ = traits::to_char_type((c1 & 0x0f) << 2);
-                    return pad ? pad_n(result, 1) : result;
-                }
-
-                int_type c2 = *first;
-                *result = traits::to_char_type((c1 & 0x0f) << 2 | (c2 & 0xff) >> 6);
-                ++result;
-                *result = traits::to_char_type((c2 & 0x3f));
-                ++result;
-            }
-
-            return result;
+            typedef typename std::iterator_traits<InputIterator>::iterator_category tag;
+            return encode(first, last, result, pad, tag());
         }
 
         /**
@@ -527,6 +502,86 @@ namespace stlencoders {
         }
 
     private:
+    	template<class InputIterator, class OutputIterator, class IteratorTag>
+        static OutputIterator encode(
+            InputIterator first, InputIterator last, OutputIterator result,
+            bool pad, IteratorTag
+            )
+        {
+            for (; first != last; ++first) {
+                int_type c0 = *first;
+                *result = traits::to_char_type((c0 & 0xff) >> 2);
+                ++result;
+
+                if (++first == last) {
+                    *result++ = traits::to_char_type((c0 & 0x03) << 4);
+                    return pad ? pad_n(result, 2) : result;
+                }
+
+                int_type c1 = *first;
+                *result = traits::to_char_type((c0 & 0x03) << 4 | (c1 & 0xff) >> 4);
+                ++result;
+
+                if (++first == last) {
+                    *result++ = traits::to_char_type((c1 & 0x0f) << 2);
+                    return pad ? pad_n(result, 1) : result;
+                }
+
+                int_type c2 = *first;
+                *result = traits::to_char_type((c1 & 0x0f) << 2 | (c2 & 0xff) >> 6);
+                ++result;
+                *result = traits::to_char_type((c2 & 0x3f));
+                ++result;
+            }
+
+            return result;
+        }
+
+    	template<class InputIterator, class OutputIterator>
+        static OutputIterator encode(
+            InputIterator first, InputIterator last, OutputIterator result,
+            bool pad, std::random_access_iterator_tag
+            )
+        {
+            while (last - first >= 3) {
+                int_type c0 = *first++;
+                *result = traits::to_char_type((c0 & 0xff) >> 2);
+                ++result;
+                int_type c1 = *first++;
+                *result = traits::to_char_type((c0 & 0x03) << 4 | (c1 & 0xff) >> 4);
+                ++result;
+                int_type c2 = *first++;
+                *result = traits::to_char_type((c1 & 0x0f) << 2 | (c2 & 0xff) >> 6);
+                ++result;
+                *result = traits::to_char_type((c2 & 0x3f));
+                ++result;
+            }
+
+            switch (last - first) {
+            case 2: {
+                int_type c0 = *first++;
+                *result = traits::to_char_type((c0 & 0xff) >> 2);
+                ++result;
+                int_type c1 = *first++;
+                *result = traits::to_char_type((c0 & 0x03) << 4 | (c1 & 0xff) >> 4);
+                ++result;
+                *result = traits::to_char_type((c1 & 0x0f) << 2);
+                ++result;
+                return pad ? pad_n(result, 1) : result;
+            }
+            case 1: {
+                int_type c0 = *first++;
+                *result = traits::to_char_type((c0 & 0xff) >> 2);
+                ++result;
+                *result = traits::to_char_type((c0 & 0x03) << 4);
+                ++result;
+                return pad ? pad_n(result, 2) : result;
+            }
+            default:
+                return result;
+            }
+        }
+
         template<class OutputIterator, class sizeT>
         static OutputIterator pad_n(OutputIterator result, sizeT n) {
             for (; n > 0; --n) {

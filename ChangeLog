@@ -1,5 +1,7 @@
 2013-12-13  Thomas Kemmer  <tkemmer@computer.org>
 
+	* include/base64.hpp (stlencoders): performance improvement for
+	random-access iterators
 	* COPYING, */*.hpp, */*.cpp: update copyright notice
 	* doc/Doxymain: prevent line-wrap for function declarations
 	* doc/Doxyfile.in: remove obsolete Doxyfile entries
