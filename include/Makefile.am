@@ -1,7 +1,6 @@
 # Process this file with automake to produce Makefile.in
 
 pkginclude_HEADERS = \
-	base2.hpp \
 	base16.hpp \
 	base32.hpp \
 	base64.hpp \

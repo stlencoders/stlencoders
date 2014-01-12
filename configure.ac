@@ -2,7 +2,7 @@
 
 AC_PREREQ([2.61])
 
-AC_INIT([stlencoders], [1.1.3], [tkemmer@computer.org])
+AC_INIT([stlencoders], [2.0.0], [tkemmer@computer.org])
 AC_CONFIG_SRCDIR([config.h.in])
 AC_CONFIG_HEADERS([config.h])
 
@@ -29,7 +29,7 @@ AC_CHECK_PROGS([DPKG_BUILDPACKAGE], [dpkg-buildpackage])
 AC_CHECK_HEADERS([getopt.h unistd.h])
 
 # check for stringencoders (used by stlbench)
-AC_CHECK_HEADERS([modp_b2.h modp_b16.h modp_b64.h modp_b64w.h])
+AC_CHECK_HEADERS([modp_b16.h modp_b64.h modp_b64w.h])
 AC_CHECK_LIB([modpbase64], [main], [stlbench_LDADD="-lmodpbase64 $stlbench_LDADD"])
 
 # check for apr-util (used by stlbench)

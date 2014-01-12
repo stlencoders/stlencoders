@@ -1,3 +1,7 @@
+stlencoders 2.0.0
+
+	* remove base2 support (focus on RFC 4648 encodings)
+
 stlencoders 1.1.3
 
 	* base32, base64: performance improvements for random-access

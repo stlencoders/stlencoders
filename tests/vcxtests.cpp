@@ -24,7 +24,6 @@
 
 #include "CppUnitTest.h"
 
-#include "test_base2.hpp"
 #include "test_base16.hpp"
 #include "test_base32.hpp"
 #include "test_base64.hpp"
@@ -36,11 +35,6 @@ using namespace Microsoft::VisualStudio::CppUnitTestFramework;
 namespace tests {
     TEST_CLASS(UnitTest) {
     public:
-        TEST_METHOD(base2)
-        {
-            test_base2();
-        }
-
         TEST_METHOD(base16)
         {
             test_base16();

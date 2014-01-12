@@ -4,11 +4,8 @@ AM_CPPFLAGS = -I$(top_srcdir)/include
 
 noinst_HEADERS = util.hpp xassert.hpp
 
-check_PROGRAMS = \
-	test_base2 test_base16 test_base32 test_base64 \
-	test_lookup test_traits
-
-test_base2_SOURCES = test_base2.cpp test_base2.hpp
+check_PROGRAMS = test_base16 test_base32 test_base64 test_lookup	\
+	test_traits
 
 test_base16_SOURCES = test_base16.cpp test_base16.hpp
 

@@ -11,7 +11,7 @@ Package: libstlencoders-bin
 Section: utils
 Architecture: any
 Depends: ${shlibs:Depends}, ${misc:Depends}
-Description: Generic Base2/16/32/64 encoding and decoding tools
+Description: Generic Base16/Base32/Base64 encoding and decoding tools
  This package contains example programs for the stlencoders library,
  which may also be useful in their own rights.
 
@@ -19,7 +19,7 @@ Package: libstlencoders-dev
 Section: libdevel
 Architecture: all
 Depends: ${misc:Depends}
-Description: Generic Base2/16/32/64 encoding algorithms for C++ [development]
+Description: Generic Base16/Base32/Base64 encoding algorithms for C++ [development]
  This package contains the header files needed to compile programs
  which use the stlencoders library.
 
@@ -28,5 +28,5 @@ Section: doc
 Architecture: all
 Depends: ${misc:Depends}
 Suggests: stlencoders-dev
-Description: Generic Base2/16/32/64 encoding algorithms for C++ [documentation]
+Description: Generic Base16/Base32/Base64 encoding algorithms for C++ [documentation]
  This package contains the documentation for the stlencoders library.

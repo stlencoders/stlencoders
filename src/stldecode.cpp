@@ -22,7 +22,6 @@
  * SOFTWARE.
  */
 
-#include "base2.hpp"
 #include "base16.hpp"
 #include "base32.hpp"
 #include "base64.hpp"
@@ -94,10 +93,7 @@ OutputIterator decode(const std::string& codec, const char* filename,
 {
     using namespace stlencoders;
 
-    if (codec == "base2") {
-        typedef base2_traits<char> traits;
-        return fdecode<base2<char, traits> >(filename, out, skip);
-    } else if (codec == "base16") {
+    if (codec == "base16") {
         typedef base16_traits<char> traits;
         return fdecode<base16<char, traits> >(filename, out, skip);
     } else if (codec == "base32") {
@@ -147,7 +143,7 @@ int main(int argc, char* argv[])
             break;
 
         case 'l':
-            std::cout << "base2 base16 base32 base32hex base64 base64url\n";
+            std::cout << "base16 base32 base32hex base64 base64url\n";
             return EXIT_SUCCESS;
 
         case 's':

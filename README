@@ -1,9 +1,8 @@
-stlencoders - Generic Base2/16/32/64 encoding algorithms for C++
-================================================================
+stlencoders - Generic Base16/Base32/Base64 encoding algorithms for C++
+======================================================================
 
 stlencoders is a C++ implementation of the Base16, Base32 and Base64
-encoding schemes as defined in RFC 4648.  Base2, i.e. binary encoding,
-is also supported.
+encoding schemes as defined in RFC 4648.
 
 In a nutshell, the stlencoders library
 

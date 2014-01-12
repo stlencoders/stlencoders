@@ -22,7 +22,6 @@
  * SOFTWARE.
  */
 
-#include "base2.hpp"
 #include "base16.hpp"
 #include "base32.hpp"
 #include "base64.hpp"
@@ -424,14 +423,12 @@ void usage(std::ostream& os, const char* progname)
 
 int main(int argc, char* argv[])
 {
-    typedef chargen<char, 2, stlencoders::base2_traits<char> > base2gen;
     typedef chargen<char, 16, stlencoders::base16_traits<char> > base16gen;
     typedef chargen<char, 32, stlencoders::base32_traits<char> > base32gen;
     typedef chargen<char, 64, stlencoders::base64_traits<char> > base64gen;
     typedef chargen<char, 32, stlencoders::base32hex_traits<char> > base32hexgen;
     typedef chargen<char, 64, stlencoders::base64url_traits<char> > base64urlgen;
 
-    typedef chargen<wchar_t, 2, stlencoders::base2_traits<wchar_t> > wbase2gen;
     typedef chargen<wchar_t, 16, stlencoders::base16_traits<wchar_t> > wbase16gen;
     typedef chargen<wchar_t, 32, stlencoders::base32_traits<wchar_t> > wbase32gen;
     typedef chargen<wchar_t, 64, stlencoders::base64_traits<wchar_t> > wbase64gen;
@@ -449,7 +446,7 @@ int main(int argc, char* argv[])
             break;
 
         case 'l':
-            std::cout << "base2 base16 base32 base32hex base64 base64url\n";
+            std::cout << "base16 base32 base32hex base64 base64url\n";
             return EXIT_SUCCESS;
 
         case 'n':
@@ -468,7 +465,6 @@ int main(int argc, char* argv[])
 
     std::vector<std::string> args;
     if (optind == argc) {
-        args.push_back("base2");
         args.push_back("base16");
         args.push_back("base32");
         args.push_back("base64");
@@ -477,12 +473,6 @@ int main(int argc, char* argv[])
     }
 
     runner run(std::cout);
-
-    if (std::find(args.begin(), args.end(), "base2") != args.end()) {
-        typedef stlencoders::base2<char> base2;
-        run.encode<base2>("base2<char>::encode", nruns);
-        run.decode<base2>("base2<char>::decode", nruns, base2gen());
-    }
 
     if (std::find(args.begin(), args.end(), "base16") != args.end()) {
         typedef stlencoders::base16<char> base16;
@@ -517,12 +507,6 @@ int main(int argc, char* argv[])
     }
 
     if (wchar) {
-        if (std::find(args.begin(), args.end(), "base2") != args.end()) {
-            typedef stlencoders::base2<wchar_t> wbase2;
-            run.encode<wbase2>("base2<wchar_t>::encode", nruns);
-            run.decode<wbase2>("base2<wchar_t>::decode", nruns, wbase2gen());
-        }
-
         if (std::find(args.begin(), args.end(), "base16") != args.end()) {
             typedef stlencoders::base16<wchar_t> wbase16;
             run.encode<wbase16>("base16<wchar_t>::encode", nruns);
@@ -559,13 +543,6 @@ int main(int argc, char* argv[])
     if (!all) {
         return EXIT_SUCCESS;
     }
-
-#ifdef HAVE_MODP_B2_H
-    if (std::find(args.begin(), args.end(), "base2") != args.end()) {
-        run.encode<modp_b2>("modp_b2_encode", nruns);
-        run.decode<modp_b2>("modp_b2_decode", nruns, base2gen());
-    }
-#endif
 
 #ifdef HAVE_MODP_B16_H
     if (std::find(args.begin(), args.end(), "base16") != args.end()) {

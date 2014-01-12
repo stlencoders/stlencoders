@@ -41,26 +41,6 @@ namespace stlencoders {
      * LUT<c>::value implicitly convertible to type @a T for each
      * character @c c.
      *
-     * To create a lookup table that maps the characters @c '0' and @c
-     * '1' to their corresponding integral values, and any other
-     * character to -1, a class template may be defined as:
-     *
-     * @code
-     * template<char C> struct base2_table {
-     *     enum { value = -1 };
-     * };
-     * template<> struct base2_table<'0'> {
-     *     enum { value = 0 };
-     * };
-     * template<> struct base2_table<'1'> {
-     *     enum { value = 1 };
-     * };
-     *
-     * lookup<base2_table, int>('0'); // returns 0
-     * lookup<base2_table, int>('1'); // returns 1
-     * lookup<base2_table, int>('2'); // returns -1
-     * @endcode
-     *
      * @tparam LUT the class template defining the lookup table
      *
      * @tparam T the lookup table's value type

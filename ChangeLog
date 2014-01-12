@@ -1,5 +1,9 @@
 2013-12-13  Thomas Kemmer  <tkemmer@computer.org>
 
+	* src/*.cpp: remove base2 support
+
+2013-12-13  Thomas Kemmer  <tkemmer@computer.org>
+
 	* configure.ac, NEWS: update for v1.1.3
 	* include/base32.hpp: performance improvement for random-access
 	iterators

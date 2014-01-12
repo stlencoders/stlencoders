@@ -5,7 +5,7 @@
  */
 
 /**
- * @mainpage stlencoders - Generic Base 16/32/64 Encoding for C++
+ * @mainpage stlencoders - Generic Base16/Base32/Base64 Encoding for C++
  *
  * @section intro Introduction
  *

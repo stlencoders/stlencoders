@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup Label="ProjectConfigurations">
     <ProjectConfiguration Include="Debug|Win32">
@@ -82,7 +82,6 @@
   <ItemGroup>
     <ClCompile Include="vcxtests.cpp" />
     <ClCompile Include="test_base16.cpp" />
-    <ClCompile Include="test_base2.cpp" />
     <ClCompile Include="test_base32.cpp" />
     <ClCompile Include="test_base64.cpp" />
     <ClCompile Include="test_lookup.cpp" />
@@ -90,7 +89,6 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="test_base16.hpp" />
-    <ClInclude Include="test_base2.hpp" />
     <ClInclude Include="test_base32.hpp" />
     <ClInclude Include="test_base64.hpp" />
     <ClInclude Include="test_lookup.hpp" />
